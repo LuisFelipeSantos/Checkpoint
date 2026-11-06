@@ -163,7 +163,9 @@
       <label>Título<input id="new-note-title" required placeholder="O que você precisa lembrar?" /></label>
       <label>Descrição<textarea id="new-note-content" rows="4" placeholder="Adicione detalhes, passos ou uma dica..."></textarea></label>
       <label>Mover para<select id="note-location"></select></label>
-      <label class="upload-dropzone compact" for="note-image"><span class="upload-icon">↑</span><strong>Anexar imagem</strong><small>JPG, PNG ou WEBP · até 5 MB</small><input id="note-image" type="file" accept="image/jpeg,image/png,image/webp" /></label>
+      <label>URL da imagem <span>(opcional)</span><input id="note-image-url" type="url" placeholder="https://exemplo.com/imagem.jpg" /></label>
+      <div class="choice-divider"><span>ou envie um arquivo</span></div>
+      <label class="upload-dropzone compact" for="note-image"><span class="upload-icon">↑</span><strong>Anexar imagem</strong><small>JPG, PNG ou WEBP · otimização automática · até 15 MB</small><input id="note-image" type="file" accept="image/jpeg,image/png,image/webp" /></label>
       <div id="note-image-status" class="file-status" hidden></div>
       <div class="modal-actions split-actions"><button class="danger-text-btn" type="button" id="delete-note" hidden>Excluir</button><span></span><button class="text-btn" value="cancel" type="button" id="cancel-note">Cancelar</button><button class="primary-btn" value="default" type="submit">Salvar anotação</button></div>
     </form>
@@ -206,11 +208,11 @@
       <label class="upload-dropzone" for="banner-file">
         <span class="upload-icon">↑</span>
         <strong>Enviar uma imagem</strong>
-        <small>JPG, PNG ou WEBP · até 10 MB</small>
+        <small>JPG, PNG ou WEBP · otimização automática · até 15 MB</small>
         <input id="banner-file" type="file" accept="image/jpeg,image/png,image/webp" />
       </label>
       <div id="banner-file-status" class="file-status" hidden></div>
-      <p class="form-hint">Use uma imagem horizontal. O arquivo será otimizado e salvo neste navegador.</p>
+      <p class="form-hint">Use uma imagem horizontal. Ela será redimensionada e convertida para WEBP sem deformação.</p>
       <div class="modal-actions"><button class="text-btn" value="cancel" type="button" id="cancel-banner">Cancelar</button><button class="primary-btn" value="default" type="submit">Salvar banner</button></div>
     </form>
   </dialog>

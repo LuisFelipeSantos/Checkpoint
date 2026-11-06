@@ -16,6 +16,8 @@ Protótipo de um aplicativo para organizar jogos, tarefas, anotações, pastas, 
 - Busca dentro de cada pasta
 - Movimentação de itens entre pastas e subpastas
 - Imagens anexadas às tarefas e anotações
+- Imagens por URL em tarefas e anotações, sem ocupar o armazenamento de uploads
+- Otimização automática de uploads para WebP, com redimensionamento proporcional e prévia da economia
 - Exportação e importação de backup em JSON
 
 ## Executar localmente
