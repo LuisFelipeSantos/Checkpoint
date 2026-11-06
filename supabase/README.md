@@ -20,3 +20,11 @@
 
 O Storage será configurado em uma migração separada, depois que login e sincronização básica estiverem funcionando.
 
+## Próximas etapas de conta
+
+- Cadastro, login e confirmação de e-mail.
+- Recuperação de senha na tela de login.
+- Perfil com nome e foto.
+- Alteração de senha dentro do perfil.
+- Encerramento seguro da sessão com a opção **Sair**.
+

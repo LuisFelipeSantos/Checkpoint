@@ -6,6 +6,7 @@ create extension if not exists pgcrypto;
 create table public.profiles (
   id uuid primary key references auth.users(id) on delete cascade,
   display_name text check (char_length(display_name) <= 80),
+  avatar_url text check (avatar_url is null or char_length(avatar_url) <= 2048),
   created_at timestamptz not null default now(),
   updated_at timestamptz not null default now()
 );
