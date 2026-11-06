@@ -12,6 +12,11 @@ Protótipo de um aplicativo para organizar jogos, tarefas, anotações, pastas, 
 - Filtros por tipo e por conclusão
 - Banner personalizado por URL ou upload
 - Dados salvos localmente no navegador
+- Edição e exclusão de jogos, pastas, subpastas e itens
+- Busca dentro de cada pasta
+- Movimentação de itens entre pastas e subpastas
+- Imagens anexadas às tarefas e anotações
+- Exportação e importação de backup em JSON
 
 ## Executar localmente
 
@@ -20,6 +25,10 @@ Abra `dist/index.html` no navegador ou sirva a pasta `dist` com um servidor HTTP
 ## Versões
 
 O projeto usa versionamento semântico. As versões estáveis são identificadas por tags como `v0.1.0`.
+
+### v0.2.0
+
+Primeiro pacote de gerenciamento de dados: edição, exclusão com confirmação, busca interna, anexos, movimentação e backup portátil. Integrações externas e conquistas não fazem parte desta versão.
 
 ## Segurança
 
