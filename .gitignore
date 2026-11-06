@@ -1,0 +1,11 @@
+# Credenciais e configurações locais
+.env
+.env.*
+!.env.example
+dist/config.js
+
+# Arquivos temporários
+*.log
+.DS_Store
+Thumbs.db
+

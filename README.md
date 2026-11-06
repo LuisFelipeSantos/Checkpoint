@@ -43,4 +43,8 @@ Primeiro pacote de gerenciamento de dados: edição, exclusão com confirmação
 
 O protótipo atual salva apenas dados locais no navegador e não deve ser usado para guardar informações sensíveis.
 
+## Backend em preparação
+
+O esquema inicial do Supabase e suas políticas RLS estão em `supabase/`. Consulte `supabase/README.md` antes de conectar autenticação ou dados reais.
+
 
