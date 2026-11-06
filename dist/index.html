@@ -12,7 +12,24 @@
   <link rel="stylesheet" href="styles.css?v=12" />
 </head>
 <body>
-  <div class="app-shell">
+  <section class="auth-screen" id="auth-screen" aria-labelledby="auth-title">
+    <div class="auth-card">
+      <div class="auth-brand"><span class="brand-mark">C</span><span>CHECKPOINT</span></div>
+      <div><p class="eyebrow">SUA JORNADA, EM TODO LUGAR</p><h1 id="auth-title">Entrar</h1><p class="auth-subtitle" id="auth-subtitle">Acesse sua biblioteca e continue de onde parou.</p></div>
+      <div class="auth-tabs" role="tablist"><button class="active" id="auth-login-tab" type="button" role="tab">Entrar</button><button id="auth-register-tab" type="button" role="tab">Criar conta</button></div>
+      <form id="auth-form" class="auth-form">
+        <label>E-mail<input id="auth-email" type="email" autocomplete="email" required placeholder="voce@exemplo.com" /></label>
+        <label>Senha<input id="auth-password" type="password" autocomplete="current-password" minlength="8" required placeholder="Mínimo de 8 caracteres" /></label>
+        <label id="auth-confirm-wrap" hidden>Confirmar senha<input id="auth-password-confirm" type="password" autocomplete="new-password" minlength="8" placeholder="Digite novamente" /></label>
+        <button class="primary-btn auth-submit" id="auth-submit" type="submit">Entrar</button>
+      </form>
+      <button class="auth-link" id="forgot-password" type="button">Esqueci minha senha</button>
+      <p class="auth-message" id="auth-message" role="status" aria-live="polite"></p>
+      <small class="auth-security">Sua senha é gerenciada pelo Supabase Auth e nunca é salva no código do site.</small>
+    </div>
+  </section>
+
+  <div class="app-shell" id="app-shell" hidden>
     <aside class="sidebar" aria-label="Navegação principal">
       <button class="brand" type="button" data-view="library" aria-label="Ir para a biblioteca">
         <span class="brand-mark">C</span>
@@ -31,11 +48,11 @@
       <div class="sidebar-spacer"></div>
       <div class="sync-card">
         <span class="sync-dot"></span>
-        <div><strong>Salvo localmente</strong><small>Protótipo offline</small></div>
+        <div><strong id="sync-title">Conectado</strong><small id="sync-subtitle">Dados locais por enquanto</small></div>
       </div>
       <button class="profile" id="open-profile" type="button" aria-haspopup="dialog">
         <span class="avatar"><span id="sidebar-avatar-initial">L</span><img id="sidebar-avatar-image" alt="" hidden /></span>
-        <span><strong id="sidebar-profile-name">Meu perfil</strong><small>Explorador</small></span>
+        <span><strong id="sidebar-profile-name">Meu perfil</strong><small id="sidebar-profile-email">Explorador</small></span>
         <span class="profile-more">•••</span>
       </button>
     </aside>
@@ -226,13 +243,25 @@
       <div class="choice-divider"><span>ou envie um arquivo</span></div>
       <label class="upload-dropzone compact" for="profile-avatar-file"><span class="upload-icon">↑</span><strong>Escolher foto</strong><small>JPG, PNG ou WEBP · otimização automática</small><input id="profile-avatar-file" type="file" accept="image/jpeg,image/png,image/webp" /></label>
       <div id="profile-avatar-status" class="file-status" hidden></div>
-      <section class="account-actions" aria-label="Segurança da conta"><div class="account-actions-copy"><strong>Segurança e sessão</strong><small>Estas opções serão ativadas após conectar o Supabase.</small></div><button class="account-action-btn" id="change-password" type="button"><span aria-hidden="true">⌁</span><span>Alterar senha</span></button><button class="account-action-btn danger" id="sign-out" type="button"><span aria-hidden="true">↪</span><span>Sair da conta</span></button></section>
+      <section class="account-actions" aria-label="Segurança da conta"><div class="account-actions-copy"><strong>Segurança e sessão</strong><small>Gerencie sua senha ou encerre a sessão neste aparelho.</small></div><button class="account-action-btn" id="change-password" type="button"><span aria-hidden="true">⌁</span><span>Alterar senha</span></button><button class="account-action-btn danger" id="sign-out" type="button"><span aria-hidden="true">↪</span><span>Sair da conta</span></button></section>
       <div class="modal-actions"><button class="text-btn" type="button" id="cancel-profile">Cancelar</button><button class="primary-btn" type="submit">Salvar perfil</button></div>
     </form>
   </dialog>
 
+  <dialog id="password-dialog" class="modal">
+    <form method="dialog" id="password-form">
+      <div class="modal-head"><div><p class="eyebrow">SEGURANÇA DA CONTA</p><h2>Alterar senha</h2></div><button class="icon-btn close-modal" type="button" aria-label="Fechar">×</button></div>
+      <p class="form-hint">Use pelo menos 8 caracteres e não reutilize senhas de outros serviços.</p>
+      <label>Nova senha<input id="new-password" type="password" autocomplete="new-password" minlength="8" required /></label>
+      <label>Confirmar nova senha<input id="new-password-confirm" type="password" autocomplete="new-password" minlength="8" required /></label>
+      <div class="modal-actions"><button class="text-btn" type="button" id="cancel-password">Cancelar</button><button class="primary-btn" type="submit">Atualizar senha</button></div>
+    </form>
+  </dialog>
+
   <div id="toast" class="toast" role="status" aria-live="polite"></div>
-  <script src="app.js?v=12"></script>
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+  <script src="supabase-config.js?v=1"></script>
+  <script src="app.js?v=13"></script>
 </body>
 </html>
 

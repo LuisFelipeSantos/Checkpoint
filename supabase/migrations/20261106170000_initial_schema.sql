@@ -94,6 +94,14 @@ create trigger on_auth_user_created
 after insert on auth.users
 for each row execute function public.handle_new_user();
 
+-- Cobre contas que possam ter sido criadas antes da primeira migração.
+insert into public.profiles (id, display_name)
+select
+  u.id,
+  left(coalesce(u.raw_user_meta_data ->> 'name', split_part(u.email, '@', 1), 'Explorador'), 80)
+from auth.users u
+on conflict (id) do nothing;
+
 -- Evita autorreferência recursiva nas políticas de folders ao validar parent_id.
 create or replace function public.is_valid_folder_parent(
   candidate_parent_id uuid,
