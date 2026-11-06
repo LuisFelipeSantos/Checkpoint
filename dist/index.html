@@ -9,7 +9,7 @@
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Space+Grotesk:wght@500;600;700&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="styles.css?v=8" />
+  <link rel="stylesheet" href="styles.css?v=9" />
 </head>
 <body>
   <div class="app-shell">
@@ -95,6 +95,7 @@
             <p>Última anotação há 2 dias · 12 itens pendentes</p>
           </div>
           <div class="hero-actions">
+            <button class="banner-btn" id="edit-game" type="button">✎ Editar jogo</button>
             <button class="banner-btn" id="change-banner" type="button">▧ Alterar banner</button>
             <button class="ghost-btn" id="new-note-hero" type="button">＋ Nova anotação</button>
           </div>
@@ -108,8 +109,9 @@
           <section class="notes-panel">
             <header class="notes-header">
               <div><p class="eyebrow" id="folder-eyebrow">PASTA</p><h2 id="folder-title">Lugares para voltar</h2></div>
-              <button class="secondary-btn" id="new-note" type="button">＋ Nova anotação</button>
+              <div class="header-actions"><button class="text-btn" id="edit-folder" type="button">✎ Editar pasta</button><button class="secondary-btn" id="new-note" type="button">＋ Nova anotação</button></div>
             </header>
+            <label class="content-search"><span aria-hidden="true">⌕</span><span class="sr-only">Buscar nesta pasta</span><input id="content-search" type="search" placeholder="Buscar tarefas e anotações nesta pasta..." /></label>
             <div class="progress-wrap">
               <div class="progress-label"><span>Progresso da pasta</span><strong id="progress-text">1 de 3 concluídos</strong></div>
               <div class="progress-track"><span id="progress-bar"></span></div>
@@ -134,12 +136,8 @@
       </section>
 
       <section id="activity-view" class="view" aria-labelledby="activity-title">
-        <header class="page-header"><div><p class="eyebrow">LINHA DO TEMPO</p><h1 id="activity-title">Atividade recente</h1><p class="subtitle">Um resumo do que você descobriu e concluiu.</p></div></header>
-        <div class="timeline">
-          <article><span class="timeline-icon done">✓</span><div><strong>Portão selado no Castelo Tempesvéu</strong><p>Marcado como concluído em Elden Ring.</p><small>Hoje, 14:32</small></div></article>
-          <article><span class="timeline-icon">＋</span><div><strong>Nova pasta “Colecionáveis”</strong><p>Criada em Hollow Knight.</p><small>Ontem, 21:08</small></div></article>
-          <article><span class="timeline-icon image">▧</span><div><strong>Imagem anexada a uma anotação</strong><p>Mapa do laboratório em Control.</p><small>2 de novembro, 18:44</small></div></article>
-        </div>
+        <header class="page-header"><div><p class="eyebrow">DADOS E BACKUP</p><h1 id="activity-title">Seus dados</h1><p class="subtitle">Faça uma cópia de segurança ou restaure seus dados neste navegador.</p></div><div class="header-actions"><button class="secondary-btn" id="export-data" type="button">↓ Exportar backup</button><label class="primary-btn import-btn" for="import-data">↑ Importar backup<input id="import-data" type="file" accept="application/json" /></label></div></header>
+        <div class="data-card"><span class="timeline-icon done">✓</span><div><strong>Backup local e portátil</strong><p>O arquivo contém sua biblioteca, pastas, tarefas e anotações. Importe apenas arquivos criados pelo Checkpoint.</p><small id="data-summary"></small></div></div>
       </section>
     </main>
   </div>
@@ -156,7 +154,7 @@
 
   <dialog id="note-dialog" class="modal">
     <form method="dialog" id="note-form">
-      <div class="modal-head"><div><p class="eyebrow">REGISTRAR DESCOBERTA</p><h2>Nova anotação</h2></div><button class="icon-btn close-modal" type="button" aria-label="Fechar">×</button></div>
+      <div class="modal-head"><div><p class="eyebrow">REGISTRAR DESCOBERTA</p><h2 id="note-dialog-title">Nova anotação</h2></div><button class="icon-btn close-modal" type="button" aria-label="Fechar">×</button></div>
       <fieldset class="item-type-picker">
         <legend>Tipo de item</legend>
         <label><input type="radio" name="item-type" value="task" checked /><span><strong>Tarefa</strong><small>Possui checkbox e status</small></span></label>
@@ -164,7 +162,28 @@
       </fieldset>
       <label>Título<input id="new-note-title" required placeholder="O que você precisa lembrar?" /></label>
       <label>Descrição<textarea id="new-note-content" rows="4" placeholder="Adicione detalhes, passos ou uma dica..."></textarea></label>
-      <div class="modal-actions"><button class="text-btn" value="cancel" type="button" id="cancel-note">Cancelar</button><button class="primary-btn" value="default" type="submit">Salvar anotação</button></div>
+      <label>Mover para<select id="note-location"></select></label>
+      <label class="upload-dropzone compact" for="note-image"><span class="upload-icon">↑</span><strong>Anexar imagem</strong><small>JPG, PNG ou WEBP · até 5 MB</small><input id="note-image" type="file" accept="image/jpeg,image/png,image/webp" /></label>
+      <div id="note-image-status" class="file-status" hidden></div>
+      <div class="modal-actions split-actions"><button class="danger-text-btn" type="button" id="delete-note" hidden>Excluir</button><span></span><button class="text-btn" value="cancel" type="button" id="cancel-note">Cancelar</button><button class="primary-btn" value="default" type="submit">Salvar anotação</button></div>
+    </form>
+  </dialog>
+
+  <dialog id="edit-game-dialog" class="modal">
+    <form method="dialog" id="edit-game-form">
+      <div class="modal-head"><div><p class="eyebrow">ORGANIZAR BIBLIOTECA</p><h2>Editar jogo</h2></div><button class="icon-btn close-modal" type="button" aria-label="Fechar">×</button></div>
+      <label>Nome<input id="edit-game-title" required /></label>
+      <label>Status<select id="edit-game-status"><option>Em andamento</option><option>Na fila</option><option>Concluído</option></select></label>
+      <div class="modal-actions split-actions"><button class="danger-text-btn" type="button" id="delete-game">Excluir jogo</button><span></span><button class="text-btn" type="button" id="cancel-edit-game">Cancelar</button><button class="primary-btn" type="submit">Salvar alterações</button></div>
+    </form>
+  </dialog>
+
+  <dialog id="edit-folder-dialog" class="modal">
+    <form method="dialog" id="edit-folder-form">
+      <div class="modal-head"><div><p class="eyebrow">ORGANIZAR CONTEÚDO</p><h2>Editar pasta</h2></div><button class="icon-btn close-modal" type="button" aria-label="Fechar">×</button></div>
+      <label>Nome<input id="edit-folder-name" required /></label>
+      <label>Cor<div class="color-picker-row"><input id="edit-folder-color" type="color" /><span id="edit-folder-color-value"></span></div></label>
+      <div class="modal-actions split-actions"><button class="danger-text-btn" type="button" id="delete-folder">Excluir pasta</button><span></span><button class="text-btn" type="button" id="cancel-edit-folder">Cancelar</button><button class="primary-btn" type="submit">Salvar alterações</button></div>
     </form>
   </dialog>
 
@@ -197,7 +216,7 @@
   </dialog>
 
   <div id="toast" class="toast" role="status" aria-live="polite"></div>
-  <script src="app.js?v=8"></script>
+  <script src="app.js?v=9"></script>
 </body>
 </html>
 
