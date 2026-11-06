@@ -37,6 +37,8 @@ let activeTypeFilter="all",activeStatusFilter="all";
 let editingNoteId=null;
 let expandedFolders=new Set(["backtracking"]);
 let optimizedNoteImage=null,optimizedBannerImage=null;
+let optimizedProfileImage=null;
+let localProfile=JSON.parse(localStorage.getItem("checkpoint-profile")||"null")||{displayName:"Meu perfil",avatarUrl:""};
 const legacySubfolderMap={1:"limgrave",2:"limgrave",3:"volcano",4:"npc-quests",5:"bleed-build",6:"merchants"};
 Object.values(notes).flat().forEach(note=>{if(!note.subfolder&&legacySubfolderMap[note.id])note.subfolder=legacySubfolderMap[note.id];if(!note.type)note.type="task"});
 const $=selector=>document.querySelector(selector);
@@ -152,5 +154,14 @@ $("#change-banner").addEventListener("click",()=>{optimizedBannerImage=null;$("#
 $("#cancel-banner").addEventListener("click",()=>$("#banner-dialog").close());
 $("#banner-file").addEventListener("change",async event=>{optimizedBannerImage=await prepareImage(event.target,$("#banner-file-status"),{maxWidth:1920,maxHeight:1080,quality:.85})});
 $("#banner-form").addEventListener("submit",async event=>{event.preventDefault();const file=$("#banner-file").files[0],url=$("#banner-url").value.trim();if(!file&&!url){showToast("Informe uma URL ou selecione uma imagem.");return}if(file&&!optimizedBannerImage){showToast("Aguarde a otimização da imagem.");return}const submit=event.submitter;submit.disabled=true;submit.textContent="Salvando...";try{const newCover=optimizedBannerImage?.dataUrl||url,oldCover=activeGame.cover;activeGame.cover=newCover;try{localStorage.setItem("checkpoint-games",JSON.stringify(games))}catch(error){activeGame.cover=oldCover;throw error}$("#hero-image").style.backgroundImage=`url("${newCover}")`;$("#banner-dialog").close();renderGames();showToast(file?"Imagem otimizada e banner atualizado!":"Banner atualizado pela URL!")}catch(error){showToast("Não foi possível salvar essa imagem. Tente um arquivo menor.")}finally{submit.disabled=false;submit.textContent="Salvar banner"}});
+function setAvatar(imageElement,initialElement,url,name){imageElement.hidden=!url;initialElement.hidden=Boolean(url);if(url)imageElement.src=url;else imageElement.removeAttribute("src");initialElement.textContent=(name.trim()[0]||"E").toUpperCase()}
+function renderProfile(){const name=localProfile.displayName||"Meu perfil";$("#sidebar-profile-name").textContent=name;$("#profile-preview-name").textContent=name;setAvatar($("#sidebar-avatar-image"),$("#sidebar-avatar-initial"),localProfile.avatarUrl,name);setAvatar($("#profile-avatar-image"),$("#profile-avatar-initial"),localProfile.avatarUrl,name)}
+$("#open-profile").addEventListener("click",()=>{optimizedProfileImage=null;$("#profile-form").reset();$("#profile-display-name").value=localProfile.displayName||"";$("#profile-avatar-url").value=localProfile.avatarUrl?.startsWith("http")?localProfile.avatarUrl:"";$("#profile-avatar-status").hidden=true;renderProfile();$("#profile-dialog").showModal();setTimeout(()=>$("#profile-display-name").focus(),50)});
+$("#cancel-profile").addEventListener("click",()=>$("#profile-dialog").close());
+$("#profile-avatar-file").addEventListener("change",async event=>{optimizedProfileImage=await prepareImage(event.target,$("#profile-avatar-status"),{maxWidth:512,maxHeight:512,quality:.84})});
+$("#profile-form").addEventListener("submit",event=>{event.preventDefault();const displayName=$("#profile-display-name").value.trim(),rawUrl=$("#profile-avatar-url").value.trim(),avatarUrl=normalizeHttpUrl(rawUrl);if(!displayName)return;if(rawUrl&&!avatarUrl){showToast("Use uma URL de foto iniciada por http:// ou https://.");return}if($("#profile-avatar-file").files[0]&&!optimizedProfileImage){showToast("Aguarde a otimização da foto.");return}localProfile={displayName,avatarUrl:optimizedProfileImage?.dataUrl||avatarUrl||localProfile.avatarUrl||""};try{localStorage.setItem("checkpoint-profile",JSON.stringify(localProfile));renderProfile();$("#profile-dialog").close();showToast("Perfil atualizado neste aparelho!")}catch(error){showToast("Não foi possível salvar essa foto. Tente uma imagem menor.")}});
+$("#change-password").addEventListener("click",()=>showToast("A alteração de senha será ativada após conectar o Supabase."));
+$("#sign-out").addEventListener("click",()=>showToast("A saída da conta será ativada após conectar o Supabase."));
+renderProfile();
 renderGames();
 

@@ -33,9 +33,9 @@
         <span class="sync-dot"></span>
         <div><strong>Salvo localmente</strong><small>Protótipo offline</small></div>
       </div>
-      <button class="profile" type="button">
-        <span class="avatar">L</span>
-        <span><strong>Meu perfil</strong><small>Explorador</small></span>
+      <button class="profile" id="open-profile" type="button" aria-haspopup="dialog">
+        <span class="avatar"><span id="sidebar-avatar-initial">L</span><img id="sidebar-avatar-image" alt="" hidden /></span>
+        <span><strong id="sidebar-profile-name">Meu perfil</strong><small>Explorador</small></span>
         <span class="profile-more">•••</span>
       </button>
     </aside>
@@ -217,8 +217,22 @@
     </form>
   </dialog>
 
+  <dialog id="profile-dialog" class="modal">
+    <form method="dialog" id="profile-form">
+      <div class="modal-head"><div><p class="eyebrow">SUA CONTA</p><h2>Meu perfil</h2></div><button class="icon-btn close-modal" type="button" aria-label="Fechar">×</button></div>
+      <div class="profile-preview"><span class="avatar profile-avatar"><span id="profile-avatar-initial">L</span><img id="profile-avatar-image" alt="Foto do perfil" hidden /></span><div><strong id="profile-preview-name">Explorador</strong><small>Perfil salvo neste aparelho</small></div></div>
+      <label>Nome de exibição<input id="profile-display-name" maxlength="80" required placeholder="Como você quer ser chamado?" /></label>
+      <label>URL da foto <span>(opcional)</span><input id="profile-avatar-url" type="url" placeholder="https://exemplo.com/foto.jpg" /></label>
+      <div class="choice-divider"><span>ou envie um arquivo</span></div>
+      <label class="upload-dropzone compact" for="profile-avatar-file"><span class="upload-icon">↑</span><strong>Escolher foto</strong><small>JPG, PNG ou WEBP · otimização automática</small><input id="profile-avatar-file" type="file" accept="image/jpeg,image/png,image/webp" /></label>
+      <div id="profile-avatar-status" class="file-status" hidden></div>
+      <section class="account-actions" aria-label="Segurança da conta"><div><strong>Segurança e sessão</strong><small>Será ativado após conectar o Supabase.</small></div><button class="secondary-btn" id="change-password" type="button">Alterar senha</button><button class="danger-outline-btn" id="sign-out" type="button">Sair da conta</button></section>
+      <div class="modal-actions"><button class="text-btn" type="button" id="cancel-profile">Cancelar</button><button class="primary-btn" type="submit">Salvar perfil</button></div>
+    </form>
+  </dialog>
+
   <div id="toast" class="toast" role="status" aria-live="polite"></div>
-  <script src="app.js?v=10"></script>
+  <script src="app.js?v=11"></script>
 </body>
 </html>
 
