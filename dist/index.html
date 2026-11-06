@@ -1,0 +1,203 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate" />
+  <meta name="description" content="Checkpoint: seu diário de progresso, missões e descobertas em jogos." />
+  <title>Checkpoint — Diário de Jogos</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Space+Grotesk:wght@500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="styles.css?v=8" />
+</head>
+<body>
+  <div class="app-shell">
+    <aside class="sidebar" aria-label="Navegação principal">
+      <button class="brand" type="button" data-view="library" aria-label="Ir para a biblioteca">
+        <span class="brand-mark">C</span>
+        <span>CHECKPOINT</span>
+      </button>
+
+      <nav class="nav-list">
+        <button class="nav-item active" type="button" data-view="library">
+          <span aria-hidden="true">▦</span> Biblioteca
+        </button>
+        <button class="nav-item" type="button" data-view="activity">
+          <span aria-hidden="true">⌁</span> Atividade
+        </button>
+      </nav>
+
+      <div class="sidebar-spacer"></div>
+      <div class="sync-card">
+        <span class="sync-dot"></span>
+        <div><strong>Salvo localmente</strong><small>Protótipo offline</small></div>
+      </div>
+      <button class="profile" type="button">
+        <span class="avatar">L</span>
+        <span><strong>Meu perfil</strong><small>Explorador</small></span>
+        <span class="profile-more">•••</span>
+      </button>
+    </aside>
+
+    <main class="main-content">
+      <section id="library-view" class="view active" aria-labelledby="library-title">
+        <header class="page-header">
+          <div>
+            <p class="eyebrow">SEU ACERVO</p>
+            <h1 id="library-title">Biblioteca</h1>
+            <p class="subtitle">Continue de onde parou ou registre uma nova jornada.</p>
+          </div>
+          <button class="primary-btn" id="open-add-game" type="button"><span>＋</span> Adicionar jogo</button>
+        </header>
+
+        <div class="toolbar">
+          <label class="search-box">
+            <span aria-hidden="true">⌕</span>
+            <span class="sr-only">Buscar jogos</span>
+            <input id="game-search" type="search" placeholder="Buscar na biblioteca..." />
+          </label>
+          <div class="filter-tabs" aria-label="Filtrar jogos">
+            <button class="filter active" type="button" data-filter="Todos">Todos <span id="count-all">4</span></button>
+            <button class="filter" type="button" data-filter="Em andamento">Em andamento</button>
+            <button class="filter" type="button" data-filter="Na fila">Na fila</button>
+            <button class="filter" type="button" data-filter="Concluído">Concluídos</button>
+          </div>
+        </div>
+
+        <div id="game-grid" class="game-grid" aria-live="polite"></div>
+        <div id="empty-state" class="empty-state" hidden>
+          <span>⌕</span><h2>Nenhum jogo encontrado</h2><p>Tente outro termo ou adicione um novo jogo.</p>
+        </div>
+      </section>
+
+      <section id="game-view" class="view" aria-labelledby="game-detail-title">
+        <button class="back-btn" type="button" data-view="library">← Voltar à biblioteca</button>
+        <div class="game-hero">
+          <div class="hero-image" id="hero-image"></div>
+          <div class="hero-overlay"></div>
+          <div class="hero-content">
+            <div class="hero-status-row">
+              <span class="status-pill in-progress">Em andamento</span>
+              <label class="completion-toggle" for="game-completed">
+                <input id="game-completed" type="checkbox" />
+                <span class="toggle-track"><span></span></span>
+                <span id="completion-label">Jogo não zerado</span>
+              </label>
+              <label class="game-rating-control" for="game-rating">
+                <span aria-hidden="true">★</span>
+                <span>Sua nota</span>
+                <input id="game-rating" type="number" min="0" max="100" step="1" inputmode="numeric" placeholder="—" aria-label="Nota do jogo de 0 a 100" />
+                <span>/100</span>
+              </label>
+            </div>
+            <h1 id="game-detail-title">Elden Ring</h1>
+            <p>Última anotação há 2 dias · 12 itens pendentes</p>
+          </div>
+          <div class="hero-actions">
+            <button class="banner-btn" id="change-banner" type="button">▧ Alterar banner</button>
+            <button class="ghost-btn" id="new-note-hero" type="button">＋ Nova anotação</button>
+          </div>
+        </div>
+
+        <div class="detail-layout">
+          <aside class="folder-panel">
+            <div class="panel-title"><span>PASTAS E SUBPASTAS</span><button class="new-subfolder-btn" id="new-folder" type="button" aria-label="Nova pasta ou subpasta">＋ Nova pasta</button></div>
+            <div id="folder-list" class="folder-list"></div>
+          </aside>
+          <section class="notes-panel">
+            <header class="notes-header">
+              <div><p class="eyebrow" id="folder-eyebrow">PASTA</p><h2 id="folder-title">Lugares para voltar</h2></div>
+              <button class="secondary-btn" id="new-note" type="button">＋ Nova anotação</button>
+            </header>
+            <div class="progress-wrap">
+              <div class="progress-label"><span>Progresso da pasta</span><strong id="progress-text">1 de 3 concluídos</strong></div>
+              <div class="progress-track"><span id="progress-bar"></span></div>
+            </div>
+            <div class="content-filter-bar">
+              <div class="content-filter-group" aria-label="Filtrar por tipo">
+                <span>Mostrar</span>
+                <button class="content-filter active" type="button" data-type-filter="all">Todos</button>
+                <button class="content-filter" type="button" data-type-filter="task">Tarefas</button>
+                <button class="content-filter" type="button" data-type-filter="note">Anotações</button>
+              </div>
+              <div class="content-filter-group" id="status-filter-group" aria-label="Filtrar por estado">
+                <span>Status</span>
+                <button class="content-filter active" type="button" data-status-filter="all">Todos</button>
+                <button class="content-filter" type="button" data-status-filter="pending">Pendentes</button>
+                <button class="content-filter" type="button" data-status-filter="done">Feitos</button>
+              </div>
+            </div>
+            <div id="notes-list" class="notes-list"></div>
+          </section>
+        </div>
+      </section>
+
+      <section id="activity-view" class="view" aria-labelledby="activity-title">
+        <header class="page-header"><div><p class="eyebrow">LINHA DO TEMPO</p><h1 id="activity-title">Atividade recente</h1><p class="subtitle">Um resumo do que você descobriu e concluiu.</p></div></header>
+        <div class="timeline">
+          <article><span class="timeline-icon done">✓</span><div><strong>Portão selado no Castelo Tempesvéu</strong><p>Marcado como concluído em Elden Ring.</p><small>Hoje, 14:32</small></div></article>
+          <article><span class="timeline-icon">＋</span><div><strong>Nova pasta “Colecionáveis”</strong><p>Criada em Hollow Knight.</p><small>Ontem, 21:08</small></div></article>
+          <article><span class="timeline-icon image">▧</span><div><strong>Imagem anexada a uma anotação</strong><p>Mapa do laboratório em Control.</p><small>2 de novembro, 18:44</small></div></article>
+        </div>
+      </section>
+    </main>
+  </div>
+
+  <dialog id="game-dialog" class="modal">
+    <form method="dialog" id="game-form">
+      <div class="modal-head"><div><p class="eyebrow">NOVA JORNADA</p><h2>Adicionar jogo</h2></div><button class="icon-btn close-modal" type="button" aria-label="Fechar">×</button></div>
+      <label>Nome do jogo<input id="new-game-title" required placeholder="Ex.: Baldur's Gate 3" /></label>
+      <label>URL da capa <span>(opcional)</span><input id="new-game-cover" type="url" placeholder="https://..." /></label>
+      <label>Status<select id="new-game-status"><option>Em andamento</option><option>Na fila</option><option>Concluído</option></select></label>
+      <div class="modal-actions"><button class="text-btn" value="cancel" type="button" id="cancel-game">Cancelar</button><button class="primary-btn" value="default" type="submit">Adicionar à biblioteca</button></div>
+    </form>
+  </dialog>
+
+  <dialog id="note-dialog" class="modal">
+    <form method="dialog" id="note-form">
+      <div class="modal-head"><div><p class="eyebrow">REGISTRAR DESCOBERTA</p><h2>Nova anotação</h2></div><button class="icon-btn close-modal" type="button" aria-label="Fechar">×</button></div>
+      <fieldset class="item-type-picker">
+        <legend>Tipo de item</legend>
+        <label><input type="radio" name="item-type" value="task" checked /><span><strong>Tarefa</strong><small>Possui checkbox e status</small></span></label>
+        <label><input type="radio" name="item-type" value="note" /><span><strong>Anotação</strong><small>Apenas texto para consulta</small></span></label>
+      </fieldset>
+      <label>Título<input id="new-note-title" required placeholder="O que você precisa lembrar?" /></label>
+      <label>Descrição<textarea id="new-note-content" rows="4" placeholder="Adicione detalhes, passos ou uma dica..."></textarea></label>
+      <div class="modal-actions"><button class="text-btn" value="cancel" type="button" id="cancel-note">Cancelar</button><button class="primary-btn" value="default" type="submit">Salvar anotação</button></div>
+    </form>
+  </dialog>
+
+  <dialog id="subfolder-dialog" class="modal">
+    <form method="dialog" id="subfolder-form">
+      <div class="modal-head"><div><p class="eyebrow">ORGANIZAR CONTEÚDO</p><h2>Nova pasta</h2></div><button class="icon-btn close-modal" type="button" aria-label="Fechar">×</button></div>
+      <label>Tipo<select id="folder-kind"><option value="folder">Pasta principal</option><option value="subfolder">Subpasta</option></select></label>
+      <label id="folder-parent-wrap" hidden>Dentro de<select id="subfolder-parent"></select></label>
+      <label>Nome<input id="subfolder-name" required placeholder="Ex.: Colecionáveis, Limgrave, Capítulo 2..." /></label>
+      <label>Cor<div class="color-picker-row"><input id="folder-color" type="color" value="#c6f06f" /><span id="folder-color-value">#C6F06F</span></div></label>
+      <div class="modal-actions"><button class="text-btn" value="cancel" type="button" id="cancel-subfolder">Cancelar</button><button class="primary-btn" value="default" type="submit" id="folder-submit">Criar pasta</button></div>
+    </form>
+  </dialog>
+
+  <dialog id="banner-dialog" class="modal banner-modal">
+    <form method="dialog" id="banner-form">
+      <div class="modal-head"><div><p class="eyebrow">PERSONALIZAR JOGO</p><h2>Alterar banner</h2></div><button class="icon-btn close-modal" type="button" aria-label="Fechar">×</button></div>
+      <label>URL da imagem<input id="banner-url" type="url" placeholder="https://exemplo.com/imagem.jpg" /></label>
+      <div class="choice-divider"><span>ou</span></div>
+      <label class="upload-dropzone" for="banner-file">
+        <span class="upload-icon">↑</span>
+        <strong>Enviar uma imagem</strong>
+        <small>JPG, PNG ou WEBP · até 10 MB</small>
+        <input id="banner-file" type="file" accept="image/jpeg,image/png,image/webp" />
+      </label>
+      <div id="banner-file-status" class="file-status" hidden></div>
+      <p class="form-hint">Use uma imagem horizontal. O arquivo será otimizado e salvo neste navegador.</p>
+      <div class="modal-actions"><button class="text-btn" value="cancel" type="button" id="cancel-banner">Cancelar</button><button class="primary-btn" value="default" type="submit">Salvar banner</button></div>
+    </form>
+  </dialog>
+
+  <div id="toast" class="toast" role="status" aria-live="polite"></div>
+  <script src="app.js?v=8"></script>
+</body>
+</html>
+
