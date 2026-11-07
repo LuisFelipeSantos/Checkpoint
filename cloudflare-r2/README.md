@@ -5,7 +5,6 @@ Esta pasta contém o gateway seguro das imagens do Checkpoint. O bucket permanec
 ## Limites de segurança
 
 - 8 GB para todo o bucket, deixando margem abaixo da franquia de 10 GB-mês.
-- 200 MB de imagens por usuário.
 - 2 MB por imagem já otimizada.
 - `GET /usage` informa o consumo autenticado para exibição no aplicativo.
 

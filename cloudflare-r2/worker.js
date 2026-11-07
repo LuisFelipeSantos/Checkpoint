@@ -1,5 +1,4 @@
 const MAX_IMAGE_BYTES=2*1024*1024;
-const MAX_USER_BYTES=200*1024*1024;
 const MAX_BUCKET_BYTES=8*1024*1024*1024;
 const ALLOWED_TYPES=new Set(["image/jpeg","image/png","image/webp","image/gif"]);
 
@@ -10,7 +9,7 @@ async function signature(env,value){const key=await crypto.subtle.importKey("raw
 function safeEqual(left,right){if(left.length!==right.length)return false;let result=0;for(let index=0;index<left.length;index++)result|=left.charCodeAt(index)^right.charCodeAt(index);return result===0}
 async function authenticatedUser(request,env){const authorization=request.headers.get("Authorization");if(!authorization?.startsWith("Bearer "))return null;const response=await fetch(`${env.SUPABASE_URL}/auth/v1/user`,{headers:{Authorization:authorization,apikey:env.SUPABASE_PUBLISHABLE_KEY}});if(!response.ok)return null;return response.json()}
 async function signedUrl(request,env,key){const expires=Math.floor(Date.now()/1000)+3600,token=await signature(env,`${key}:${expires}`),url=new URL(request.url);return`${url.origin}/image/${encodeURIComponent(key)}?expires=${expires}&signature=${token}`}
-async function storageUsage(env,userId){let cursor,totalBytes=0,userBytes=0,objectCount=0;do{const page=await env.IMAGES.list({cursor,limit:1000});for(const object of page.objects){totalBytes+=object.size;objectCount+=1;if(object.key.startsWith(`${userId}/`))userBytes+=object.size}cursor=page.truncated?page.cursor:undefined}while(cursor);return{totalBytes,userBytes,objectCount,maxBucketBytes:MAX_BUCKET_BYTES,maxUserBytes:MAX_USER_BYTES}}
+async function storageUsage(env){let cursor,totalBytes=0,objectCount=0;do{const page=await env.IMAGES.list({cursor,limit:1000});for(const object of page.objects){totalBytes+=object.size;objectCount+=1}cursor=page.truncated?page.cursor:undefined}while(cursor);return{totalBytes,objectCount,maxBucketBytes:MAX_BUCKET_BYTES}}
 
 export default{async fetch(request,env){
  const url=new URL(request.url);
@@ -23,18 +22,17 @@ export default{async fetch(request,env){
   const headers=new Headers(cors(env));object.writeHttpMetadata(headers);headers.set("Cache-Control","private, max-age=3600");headers.set("ETag",object.httpEtag);return new Response(object.body,{headers});
  }
  const user=await authenticatedUser(request,env);if(!user)return json({error:"Sessão inválida."},401,env);
- if(url.pathname==="/usage"&&request.method==="GET")return json(await storageUsage(env,user.id),200,env);
+ if(url.pathname==="/usage"&&request.method==="GET")return json(await storageUsage(env),200,env);
  if(url.pathname==="/upload"&&request.method==="POST"){
   const contentType=(request.headers.get("Content-Type")||"").split(";")[0],declaredSize=Number(request.headers.get("Content-Length")||0);
   if(!ALLOWED_TYPES.has(contentType))return json({error:"Formato de imagem não permitido."},415,env);
   if(declaredSize>MAX_IMAGE_BYTES)return json({error:"Imagem maior que 2 MB."},413,env);
   const body=await request.arrayBuffer();if(!body.byteLength||body.byteLength>MAX_IMAGE_BYTES)return json({error:"Imagem vazia ou maior que 2 MB."},413,env);
-  const usage=await storageUsage(env,user.id);
+  const usage=await storageUsage(env);
   if(usage.totalBytes+body.byteLength>MAX_BUCKET_BYTES)return json({error:"O armazenamento do serviço atingiu o limite de segurança de 8 GB."},507,env);
-  if(usage.userBytes+body.byteLength>MAX_USER_BYTES)return json({error:"Sua conta atingiu o limite de 200 MB de imagens."},507,env);
   const extension={"image/jpeg":"jpg","image/png":"png","image/webp":"webp","image/gif":"gif"}[contentType],key=`${user.id}/${crypto.randomUUID()}.${extension}`;
   await env.IMAGES.put(key,body,{httpMetadata:{contentType},customMetadata:{owner:user.id}});
-  return json({key,url:await signedUrl(request,env,key),usage:{userBytes:usage.userBytes+body.byteLength,maxUserBytes:MAX_USER_BYTES}},201,env);
+  return json({key,url:await signedUrl(request,env,key),usage:{totalBytes:usage.totalBytes+body.byteLength,maxBucketBytes:MAX_BUCKET_BYTES}},201,env);
  }
  if(url.pathname==="/sign"&&request.method==="POST"){
   const {key}=await request.json();if(typeof key!=="string"||!key.startsWith(`${user.id}/`))return json({error:"Imagem não autorizada."},403,env);
