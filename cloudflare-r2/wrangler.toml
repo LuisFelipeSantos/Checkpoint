@@ -1,0 +1,12 @@
+name = "taskgames-images"
+main = "worker.js"
+compatibility_date = "2026-11-07"
+
+[[r2_buckets]]
+binding = "IMAGES"
+bucket_name = "taskgames-images"
+
+[vars]
+APP_ORIGIN = "https://luisfelipesantos.github.io"
+SUPABASE_URL = "https://nzekzgyerzpuyufyrtxv.supabase.co"
+SUPABASE_PUBLISHABLE_KEY = "sb_publishable_Ic9KsrHB7A6FXy5QnIfCTw_lmbKg6D_"

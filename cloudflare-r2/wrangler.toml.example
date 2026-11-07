@@ -4,7 +4,7 @@ compatibility_date = "2026-11-07"
 
 [[r2_buckets]]
 binding = "IMAGES"
-bucket_name = "checkpoint-images"
+bucket_name = "taskgames-images"
 
 [vars]
 APP_ORIGIN = "https://luisfelipesantos.github.io"

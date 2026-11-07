@@ -12,7 +12,7 @@ O Worker recusa novos uploads quando uma das cotas seria ultrapassada. Como o R2
 
 ## Configuração
 
-1. Ative o R2 no painel Cloudflare e crie o bucket privado `checkpoint-images`.
+1. Ative o R2 no painel Cloudflare e crie o bucket privado `taskgames-images`.
 2. Copie `wrangler.toml.example` para `wrangler.toml` e ajuste os valores públicos.
 3. Gere um segredo longo e cadastre-o somente no Worker com `npx wrangler secret put SIGNING_SECRET`.
 4. Publique com `npx wrangler deploy`.

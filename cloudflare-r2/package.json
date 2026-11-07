@@ -1,0 +1,11 @@
+{
+  "name": "taskgames-images-worker",
+  "private": true,
+  "scripts": {
+    "login": "wrangler login",
+    "deploy": "wrangler deploy"
+  },
+  "devDependencies": {
+    "wrangler": "4.45.0"
+  }
+}

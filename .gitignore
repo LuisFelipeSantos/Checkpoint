@@ -8,4 +8,6 @@ dist/config.js
 *.log
 .DS_Store
 Thumbs.db
+node_modules/
+.wrangler/
 
