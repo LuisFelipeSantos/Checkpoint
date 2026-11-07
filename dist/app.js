@@ -27,11 +27,12 @@ const defaultNotes={
  tips:[{id:6,title:"Mercador noturno em Limgrave",content:"Aparece apenas à noite perto da cabana do Mestre de Guerra.",done:true,date:"1 sem.",subfolder:"merchants"}]
 };
 
-let games=JSON.parse(localStorage.getItem("checkpoint-games")||"null")||defaultGames;
+if(!localStorage.getItem("checkpoint-production-reset-v1")){["checkpoint-games","checkpoint-folders","checkpoint-notes","checkpoint-subfolders"].forEach(key=>localStorage.removeItem(key));localStorage.setItem("checkpoint-production-reset-v1","done")}
+let games=JSON.parse(localStorage.getItem("checkpoint-games")||"null")||[];
 games.forEach(game=>{if(typeof game.isCompleted!=="boolean")game.isCompleted=game.status==="Concluído";if(typeof game.rating!=="number")game.rating=null});
-let folders=JSON.parse(localStorage.getItem("checkpoint-folders")||"null")||defaultFolders;
-let notes=JSON.parse(localStorage.getItem("checkpoint-notes")||"null")||defaultNotes;
-let subfolders=JSON.parse(localStorage.getItem("checkpoint-subfolders")||"null")||defaultSubfolders;
+let folders=JSON.parse(localStorage.getItem("checkpoint-folders")||"null")||[];
+let notes=JSON.parse(localStorage.getItem("checkpoint-notes")||"null")||{};
+let subfolders=JSON.parse(localStorage.getItem("checkpoint-subfolders")||"null")||{};
 let activeFilter="Todos",activeFolder="backtracking",activeSubfolder=null,activeGame=games[0];
 let activeTypeFilter="all",activeStatusFilter="all";
 let editingNoteId=null;
@@ -56,6 +57,7 @@ function gameStatusLabel(game){return game.isCompleted?"Zerado":game.status}
 function escapeHtml(value){const div=document.createElement("div");div.textContent=value;return div.innerHTML}
 function normalizeHttpUrl(value){if(!value)return "";try{const url=new URL(value);return url.protocol==="http:"||url.protocol==="https:"?url.href:""}catch(error){return ""}}
 function saveGames(){localStorage.setItem("checkpoint-games",JSON.stringify(games))}
+function initializeEmptyStructure(){if(folders.length)return;folders=defaultFolders.map(folder=>({...folder}));notes=Object.fromEntries(folders.map(folder=>[folder.id,[]]));subfolders=Object.fromEntries(folders.map(folder=>[folder.id,[]]));saveStructure();activeFolder=folders[0].id;activeSubfolder=null}
 function locationOptions(selectedFolder=activeFolder,selectedSubfolder=activeSubfolder){return folders.map(folder=>`<optgroup label="${escapeHtml(folder.name)}"><option value="${folder.id}|" ${folder.id===selectedFolder&&!selectedSubfolder?"selected":""}>${escapeHtml(folder.name)} (pasta principal)</option>${(subfolders[folder.id]||[]).map(child=>`<option value="${folder.id}|${child.id}" ${folder.id===selectedFolder&&child.id===selectedSubfolder?"selected":""}>↳ ${escapeHtml(child.name)}</option>`).join("")}</optgroup>`).join("")}
 function renderGames(){
  const query=$("#game-search").value.trim().toLowerCase();
@@ -138,7 +140,7 @@ $("#game-search").addEventListener("input",renderGames);
 $("#content-search").addEventListener("input",renderNotes);
 $("#open-add-game").addEventListener("click",()=>$("#game-dialog").showModal());
 $("#cancel-game").addEventListener("click",()=>$("#game-dialog").close());
-$("#game-form").addEventListener("submit",event=>{event.preventDefault();const title=$("#new-game-title").value.trim(),cover=$("#new-game-cover").value.trim()||"https://images.unsplash.com/photo-1542751371-adc38448a05e?auto=format&fit=crop&w=1200&q=85",status=$("#new-game-status").value;if(!title)return;games.unshift({id:`game-${Date.now()}`,title,status,cover,isCompleted:status==="Concluído",rating:null,progress:status==="Concluído"?100:0,meta:"Adicionado agora"});localStorage.setItem("checkpoint-games",JSON.stringify(games));$("#game-dialog").close();event.target.reset();activeFilter="Todos";document.querySelectorAll(".filter").forEach(x=>x.classList.toggle("active",x.dataset.filter==="Todos"));renderGames();showToast("Jogo adicionado à biblioteca!")});
+$("#game-form").addEventListener("submit",event=>{event.preventDefault();const title=$("#new-game-title").value.trim(),cover=$("#new-game-cover").value.trim()||"https://images.unsplash.com/photo-1542751371-adc38448a05e?auto=format&fit=crop&w=1200&q=85",status=$("#new-game-status").value;if(!title)return;initializeEmptyStructure();games.unshift({id:`game-${Date.now()}`,title,status,cover,isCompleted:status==="Concluído",rating:null,progress:status==="Concluído"?100:0,meta:"Adicionado agora"});localStorage.setItem("checkpoint-games",JSON.stringify(games));$("#game-dialog").close();event.target.reset();activeFilter="Todos";document.querySelectorAll(".filter").forEach(x=>x.classList.toggle("active",x.dataset.filter==="Todos"));renderGames();showToast("Jogo adicionado à biblioteca!")});
 $("#game-completed").addEventListener("change",event=>{activeGame.isCompleted=event.target.checked;activeGame.status=activeGame.isCompleted?"Concluído":"Em andamento";saveGames();const pill=$(".hero-content .status-pill");pill.textContent=gameStatusLabel(activeGame);pill.className=`status-pill ${statusClass(activeGame.status)}`;$("#completion-label").textContent=activeGame.isCompleted?"Jogo zerado":"Jogo não zerado";renderGames();showToast(activeGame.isCompleted?"Jogo marcado como zerado!":"Jogo marcado como não zerado.")});
 $("#game-rating").addEventListener("change",event=>{const raw=event.target.value.trim();if(raw===""){activeGame.rating=null;localStorage.setItem("checkpoint-games",JSON.stringify(games));showToast("Nota removida.");return}const rating=Math.max(0,Math.min(100,Math.round(Number(raw))));activeGame.rating=Number.isFinite(rating)?rating:null;event.target.value=activeGame.rating??"";localStorage.setItem("checkpoint-games",JSON.stringify(games));showToast(activeGame.rating===null?"Informe uma nota entre 0 e 100.":`Nota ${activeGame.rating}/100 salva!`)});
 function openNoteDialog(id=null){editingNoteId=id;optimizedNoteImage=null;const item=id!==null?folderItems(activeFolder).find(note=>note.id===id):null;$("#note-form").reset();$("#note-dialog-title").textContent=item?"Editar item":"Nova anotação";$("#new-note-title").value=item?.title||"";$("#new-note-content").value=item?.content||"";$("#note-image-url").value=item?.image?.startsWith("http")?item.image:"";$("#note-location").innerHTML=locationOptions(activeFolder,item?.subfolder??activeSubfolder);if(item)document.querySelector(`#note-form input[name="item-type"][value="${item.type}"]`).checked=true;$("#delete-note").hidden=!item;$("#note-image-status").hidden=!item?.image;if(item?.image)$("#note-image-status").textContent="Este item possui uma imagem anexada. Uma nova URL ou arquivo substituirá a imagem atual.";$("#note-dialog").showModal();setTimeout(()=>$("#new-note-title").focus(),50)}
