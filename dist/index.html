@@ -201,6 +201,7 @@
       <div class="choice-divider"><span>ou envie um arquivo</span></div>
       <label class="upload-dropzone compact" for="note-image"><span class="upload-icon">↑</span><strong>Anexar imagem</strong><small>JPG, PNG ou WEBP · otimização automática · arquivo final até 2 MB</small><input id="note-image" type="file" accept="image/jpeg,image/png,image/webp" /></label>
       <div id="note-image-status" class="file-status" hidden></div>
+      <label id="remove-note-image-wrap" class="remove-image-option" hidden><input id="remove-note-image" type="checkbox" /> Remover a imagem atual ao salvar</label>
       <div class="modal-actions split-actions"><button class="danger-text-btn" type="button" id="delete-note" hidden>Excluir</button><span></span><button class="text-btn" value="cancel" type="button" id="cancel-note">Cancelar</button><button class="primary-btn" value="default" type="submit">Salvar anotação</button></div>
     </form>
   </dialog>
@@ -278,7 +279,7 @@
   <div id="toast" class="toast" role="status" aria-live="polite"></div>
   <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
   <script src="supabase-config.js?v=1"></script>
-  <script src="app.js?v=21"></script>
+  <script src="app.js?v=22"></script>
 </body>
 </html>
 
