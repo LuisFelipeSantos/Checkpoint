@@ -9,23 +9,27 @@
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Space+Grotesk:wght@500;600;700&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="styles.css?v=13" />
+  <link rel="stylesheet" href="styles.css?v=14" />
 </head>
 <body>
   <section class="auth-screen" id="auth-screen" aria-labelledby="auth-title">
     <div class="auth-card">
       <div class="auth-brand"><span class="brand-mark">C</span><span>CHECKPOINT</span></div>
-      <div><p class="eyebrow">SUA JORNADA, EM TODO LUGAR</p><h1 id="auth-title">Entrar</h1><p class="auth-subtitle" id="auth-subtitle">Acesse sua biblioteca e continue de onde parou.</p></div>
-      <div class="auth-tabs" role="tablist"><button class="active" id="auth-login-tab" type="button" role="tab">Entrar</button><button id="auth-register-tab" type="button" role="tab">Criar conta</button></div>
-      <form id="auth-form" class="auth-form">
-        <label>E-mail<input id="auth-email" type="email" autocomplete="email" required placeholder="voce@exemplo.com" /></label>
-        <label>Senha<input id="auth-password" type="password" autocomplete="current-password" minlength="8" required placeholder="Mínimo de 8 caracteres" /></label>
-        <label id="auth-confirm-wrap" hidden>Confirmar senha<input id="auth-password-confirm" type="password" autocomplete="new-password" minlength="8" placeholder="Digite novamente" /></label>
-        <button class="primary-btn auth-submit" id="auth-submit" type="submit">Entrar</button>
-      </form>
-      <button class="auth-link" id="forgot-password" type="button">Esqueci minha senha</button>
-      <p class="auth-message" id="auth-message" role="status" aria-live="polite"></p>
-      <small class="auth-security">Sua senha é gerenciada pelo Supabase Auth e nunca é salva no código do site.</small>
+      <div id="auth-entry">
+        <div><p class="eyebrow">SUA JORNADA, EM TODO LUGAR</p><h1 id="auth-title">Entrar</h1><p class="auth-subtitle" id="auth-subtitle">Acesse sua biblioteca e continue de onde parou.</p></div>
+        <div class="auth-tabs" role="tablist"><button class="active" id="auth-login-tab" type="button" role="tab">Entrar</button><button id="auth-register-tab" type="button" role="tab">Criar conta</button></div>
+        <form id="auth-form" class="auth-form">
+          <label>E-mail<input id="auth-email" type="email" autocomplete="email" required placeholder="voce@exemplo.com" /></label>
+          <label>Senha<input id="auth-password" type="password" autocomplete="current-password" minlength="8" required placeholder="Mínimo de 8 caracteres" /></label>
+          <label id="auth-confirm-wrap" hidden>Confirmar senha<input id="auth-password-confirm" type="password" autocomplete="new-password" minlength="8" placeholder="Digite novamente" /></label>
+          <button class="primary-btn auth-submit" id="auth-submit" type="submit">Entrar</button>
+        </form>
+        <button class="auth-link" id="forgot-password" type="button">Esqueci minha senha</button>
+        <p class="auth-message" id="auth-message" role="status" aria-live="polite"></p>
+        <small class="auth-security">Sua senha é gerenciada pelo Supabase Auth e nunca é salva no código do site.</small>
+      </div>
+      <div class="auth-result" id="confirmation-pending" hidden><span class="auth-result-icon">✉</span><div><p class="eyebrow">CONFIRME SEU CADASTRO</p><h1>E-mail enviado</h1><p>Enviamos um link de confirmação para <strong id="confirmation-email"></strong>. Abra o e-mail e clique no link para validar sua conta.</p></div><button class="primary-btn" id="pending-to-login" type="button">Ir para o login</button><button class="auth-link" id="resend-confirmation" type="button">Reenviar e-mail</button><p class="auth-message" id="confirmation-message" role="status"></p></div>
+      <div class="auth-result" id="confirmation-result" hidden><span class="auth-result-icon success" id="confirmation-result-icon">✓</span><div><p class="eyebrow" id="confirmation-result-eyebrow">CONTA VALIDADA</p><h1 id="confirmation-result-title">Tudo certo!</h1><p id="confirmation-result-text">Seu e-mail foi confirmado. Agora você já pode entrar na sua conta.</p></div><button class="primary-btn" id="confirmed-to-login" type="button">Ir para o login agora</button></div>
     </div>
   </section>
 
@@ -261,7 +265,7 @@
   <div id="toast" class="toast" role="status" aria-live="polite"></div>
   <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
   <script src="supabase-config.js?v=1"></script>
-  <script src="app.js?v=13"></script>
+  <script src="app.js?v=14"></script>
 </body>
 </html>
 
