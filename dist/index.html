@@ -51,6 +51,9 @@
         <button class="nav-item" type="button" data-view="activity">
           <span aria-hidden="true">⌁</span> Atividade
         </button>
+        <button class="nav-item" type="button" data-view="data">
+          <span aria-hidden="true">⇅</span> Dados
+        </button>
       </nav>
 
       <div class="sidebar-spacer"></div>
@@ -161,8 +164,14 @@
       </section>
 
       <section id="activity-view" class="view" aria-labelledby="activity-title">
-        <header class="page-header"><div><p class="eyebrow">DADOS E BACKUP</p><h1 id="activity-title">Seus dados</h1><p class="subtitle">Seus jogos e anotações são sincronizados com sua conta.</p></div><div class="header-actions"><button class="secondary-btn" id="export-data" type="button">↓ Exportar backup</button><label class="primary-btn import-btn" for="import-data">↑ Importar backup<input id="import-data" type="file" accept="application/json" /></label></div></header>
-        <div class="data-card"><span class="timeline-icon done">✓</span><div><strong>Backup local e portátil</strong><p>O arquivo contém sua biblioteca, pastas, tarefas e anotações. Importe apenas arquivos criados pelo Checkpoint.</p><small id="data-summary"></small></div></div>
+        <header class="page-header"><div><p class="eyebrow">VISÃO GERAL</p><h1 id="activity-title">Sua atividade</h1><p class="subtitle">Um resumo útil do seu progresso e do que merece atenção agora.</p></div></header>
+        <div class="activity-stats" id="activity-stats" aria-live="polite"><article><span>Jogos</span><strong id="stat-games">—</strong><small>na biblioteca</small></article><article><span>Em andamento</span><strong id="stat-playing">—</strong><small>jornadas ativas</small></article><article><span>Pendentes</span><strong id="stat-pending">—</strong><small>tarefas para fazer</small></article><article><span>Concluídas</span><strong id="stat-done">—</strong><small>tarefas finalizadas</small></article></div>
+        <div class="activity-layout"><section class="activity-panel"><div class="section-heading"><p class="eyebrow">PRÓXIMO PASSO</p><h2>Tarefas pendentes</h2></div><div id="pending-activity" class="activity-list"><p class="activity-empty">Carregando...</p></div></section><section class="activity-panel"><div class="section-heading"><p class="eyebrow">HISTÓRICO</p><h2>Alterações recentes</h2></div><div id="recent-activity" class="activity-list"><p class="activity-empty">Carregando...</p></div></section></div>
+      </section>
+
+      <section id="data-view" class="view" aria-labelledby="data-title">
+        <header class="page-header"><div><p class="eyebrow">DADOS E BACKUP</p><h1 id="data-title">Seus dados</h1><p class="subtitle">Exporte uma cópia ou importe um backup sem misturar esta função com sua atividade.</p></div><div class="header-actions"><button class="secondary-btn" id="export-data" type="button">↓ Exportar backup</button><label class="primary-btn import-btn" for="import-data">↑ Importar backup<input id="import-data" type="file" accept="application/json" /></label></div></header>
+        <div class="data-card"><span class="timeline-icon done">✓</span><div><strong>Backup completo da conta</strong><p>O arquivo contém jogos, pastas, tarefas e anotações sincronizados. A importação adiciona os dados e não apaga sua biblioteca atual.</p><small id="data-summary">Calculando seus dados...</small></div></div>
       </section>
     </main>
   </div>
@@ -269,7 +278,7 @@
   <div id="toast" class="toast" role="status" aria-live="polite"></div>
   <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
   <script src="supabase-config.js?v=1"></script>
-  <script src="app.js?v=19"></script>
+  <script src="app.js?v=20"></script>
 </body>
 </html>
 
