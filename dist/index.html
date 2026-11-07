@@ -9,7 +9,7 @@
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Space+Grotesk:wght@500;600;700&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="styles.css?v=14" />
+  <link rel="stylesheet" href="styles.css?v=15" />
 </head>
 <body>
   <section class="auth-screen" id="auth-screen" aria-labelledby="auth-title">
@@ -30,6 +30,8 @@
       </div>
       <div class="auth-result" id="confirmation-pending" hidden><span class="auth-result-icon">✉</span><div><p class="eyebrow">CONFIRME SEU CADASTRO</p><h1>E-mail enviado</h1><p>Enviamos um link de confirmação para <strong id="confirmation-email"></strong>. Abra o e-mail e clique no link para validar sua conta.</p></div><button class="primary-btn" id="pending-to-login" type="button">Ir para o login</button><button class="auth-link" id="resend-confirmation" type="button">Reenviar e-mail</button><p class="auth-message" id="confirmation-message" role="status"></p></div>
       <div class="auth-result" id="confirmation-result" hidden><span class="auth-result-icon success" id="confirmation-result-icon">✓</span><div><p class="eyebrow" id="confirmation-result-eyebrow">CONTA VALIDADA</p><h1 id="confirmation-result-title">Tudo certo!</h1><p id="confirmation-result-text">Seu e-mail foi confirmado. Agora você já pode entrar na sua conta.</p></div><button class="primary-btn" id="confirmed-to-login" type="button">Ir para o login agora</button></div>
+      <div id="forgot-password-screen" class="auth-result" hidden><span class="auth-result-icon">⌁</span><div><p class="eyebrow">RECUPERAR ACESSO</p><h1>Esqueci minha senha</h1><p>Informe o e-mail da sua conta. Enviaremos um link seguro para você criar uma nova senha.</p></div><form id="forgot-password-form" class="auth-form"><label>E-mail<input id="recovery-email" type="email" autocomplete="email" required placeholder="voce@exemplo.com" /></label><button class="primary-btn" id="send-recovery" type="submit">Enviar link de recuperação</button></form><button class="auth-link" id="forgot-back-to-login" type="button">← Voltar para o login</button><p class="auth-message" id="recovery-message" role="status" aria-live="polite"></p></div>
+      <div id="recovery-sent" class="auth-result" hidden><span class="auth-result-icon">✉</span><div><p class="eyebrow">VERIFIQUE SEU E-MAIL</p><h1>Link enviado</h1><p>Enviamos as instruções de recuperação para <strong id="recovery-sent-email"></strong>. O link permite definir uma nova senha.</p></div><button class="primary-btn" id="recovery-to-login" type="button">Voltar para o login</button><button class="auth-link" id="send-recovery-again" type="button">Enviar novamente</button><p class="auth-message" id="recovery-sent-message" role="status"></p></div>
     </div>
   </section>
 
@@ -265,7 +267,7 @@
   <div id="toast" class="toast" role="status" aria-live="polite"></div>
   <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
   <script src="supabase-config.js?v=1"></script>
-  <script src="app.js?v=14"></script>
+  <script src="app.js?v=15"></script>
 </body>
 </html>
 
