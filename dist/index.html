@@ -276,10 +276,16 @@
     </form>
   </dialog>
 
+  <dialog id="image-lightbox" class="image-lightbox" aria-labelledby="image-lightbox-caption">
+    <button id="close-image-lightbox" class="image-lightbox-close" type="button" aria-label="Fechar imagem ampliada">×</button>
+    <img id="image-lightbox-content" alt="" />
+    <p id="image-lightbox-caption"></p>
+  </dialog>
+
   <div id="toast" class="toast" role="status" aria-live="polite"></div>
   <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
   <script src="supabase-config.js?v=1"></script>
-  <script src="app.js?v=22"></script>
+  <script src="app.js?v=23"></script>
 </body>
 </html>
 
