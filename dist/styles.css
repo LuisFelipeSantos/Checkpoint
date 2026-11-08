@@ -102,4 +102,6 @@ html,body{max-width:100%;overflow-x:hidden}.app-shell,.main-content,.view,.detai
 @media(max-width:1280px){.detail-layout{grid-template-columns:minmax(0,220px) minmax(0,1fr)}}
 @media(max-width:980px){.detail-layout{grid-template-columns:minmax(0,1fr)}.folder-list{grid-template-columns:minmax(0,1fr)}.folder-panel{width:100%}}
 @media(max-width:560px){.folder-panel{padding-inline:8px}.subfolder-list{margin-left:22px;width:calc(100% - 22px);padding-left:7px}.folder-item,.subfolder-item{font-size:12px}.folder-drag-help{font-size:10px}}
+.clear-content-filters{border:1px solid #414952;background:#1d2228;color:#c8ceca;border-radius:8px;padding:6px 9px;font-size:10px;font-weight:700;cursor:pointer;white-space:nowrap}.clear-content-filters:hover{border-color:var(--lime);color:var(--lime)}.subfolder-item.drop-before{box-shadow:inset 0 2px var(--lime)}.subfolder-item.drop-after{box-shadow:inset 0 -2px var(--lime)}
+@media(max-width:980px){.clear-content-filters{align-self:flex-start}}
 
