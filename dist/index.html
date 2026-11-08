@@ -9,7 +9,7 @@
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Space+Grotesk:wght@500;600;700&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="styles.css?v=15" />
+  <link rel="stylesheet" href="styles.css?v=16" />
 </head>
 <body>
   <section class="auth-screen" id="auth-screen" aria-labelledby="auth-title">
@@ -136,6 +136,8 @@
           <aside class="folder-panel">
             <div class="panel-title"><span>PASTAS E SUBPASTAS</span><button class="new-subfolder-btn" id="new-folder" type="button" aria-label="Nova pasta ou subpasta">＋ Nova pasta</button></div>
             <div id="folder-list" class="folder-list"></div>
+            <div id="root-folder-drop" class="root-folder-drop">Solte aqui para tornar pasta principal</div>
+            <p class="folder-drag-help">Segure e arraste uma pasta sobre outra para transformá-la em subpasta.</p>
           </aside>
           <section class="notes-panel">
             <header class="notes-header">
@@ -222,6 +224,8 @@
     <form method="dialog" id="edit-folder-form">
       <div class="modal-head"><div><p class="eyebrow">ORGANIZAR CONTEÚDO</p><h2>Editar pasta</h2></div><button class="icon-btn close-modal" type="button" aria-label="Fechar">×</button></div>
       <label>Nome<input id="edit-folder-name" required /></label>
+      <label>Organização<select id="edit-folder-parent"></select></label>
+      <p class="form-hint">Escolha “Pasta principal” ou coloque esta pasta dentro de outra.</p>
       <label>Cor<div class="color-picker-row"><input id="edit-folder-color" type="color" /><span id="edit-folder-color-value"></span></div></label>
       <div class="modal-actions split-actions"><button class="danger-text-btn" type="button" id="delete-folder">Excluir pasta</button><span></span><button class="text-btn" type="button" id="cancel-edit-folder">Cancelar</button><button class="primary-btn" type="submit">Salvar alterações</button></div>
     </form>
@@ -288,7 +292,7 @@
   <div id="toast" class="toast" role="status" aria-live="polite"></div>
   <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
   <script src="supabase-config.js?v=1"></script>
-  <script src="app.js?v=24"></script>
+  <script src="app.js?v=25"></script>
 </body>
 </html>
 
