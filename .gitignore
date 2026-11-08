@@ -10,4 +10,5 @@ dist/config.js
 Thumbs.db
 node_modules/
 .wrangler/
+logo-review/
 

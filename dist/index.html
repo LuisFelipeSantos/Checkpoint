@@ -5,16 +5,24 @@
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate" />
   <meta name="description" content="Checkpoint: seu diário de progresso, missões e descobertas em jogos." />
+  <meta name="theme-color" content="#15181d" />
+  <meta name="mobile-web-app-capable" content="yes" />
+  <meta name="apple-mobile-web-app-capable" content="yes" />
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
+  <meta name="apple-mobile-web-app-title" content="Checkpoint" />
   <title>Checkpoint — Diário de Jogos</title>
+  <link rel="manifest" href="manifest.webmanifest?v=1" />
+  <link rel="icon" type="image/png" sizes="192x192" href="icons/icon-192.png" />
+  <link rel="apple-touch-icon" href="icons/icon-192.png" />
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Space+Grotesk:wght@500;600;700&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="styles.css?v=18" />
+  <link rel="stylesheet" href="styles.css?v=19" />
 </head>
 <body>
   <section class="auth-screen" id="auth-screen" aria-labelledby="auth-title">
     <div class="auth-card">
-      <div class="auth-brand"><span class="brand-mark">C</span><span>CHECKPOINT</span></div>
+      <div class="auth-brand"><span class="brand-mark"><img src="icons/icon-192.png" alt="" /></span><span>CHECKPOINT</span></div>
       <div id="auth-entry">
         <div><p class="eyebrow">SUA JORNADA, EM TODO LUGAR</p><h1 id="auth-title">Entrar</h1><p class="auth-subtitle" id="auth-subtitle">Acesse sua biblioteca e continue de onde parou.</p></div>
         <div class="auth-tabs" role="tablist"><button class="active" id="auth-login-tab" type="button" role="tab">Entrar</button><button id="auth-register-tab" type="button" role="tab">Criar conta</button></div>
@@ -40,7 +48,7 @@
   <div class="app-shell" id="app-shell" hidden>
     <aside class="sidebar" aria-label="Navegação principal">
       <button class="brand" type="button" data-view="library" aria-label="Ir para a biblioteca">
-        <span class="brand-mark">C</span>
+        <span class="brand-mark"><img src="icons/icon-192.png" alt="" /></span>
         <span>CHECKPOINT</span>
       </button>
 
@@ -238,7 +246,7 @@
       <label>Tipo<select id="folder-kind"><option value="folder">Pasta principal</option><option value="subfolder">Subpasta</option></select></label>
       <label id="folder-parent-wrap" hidden>Dentro de<select id="subfolder-parent"></select></label>
       <label>Nome<input id="subfolder-name" required placeholder="Ex.: Colecionáveis, Limgrave, Capítulo 2..." /></label>
-      <label>Cor<div class="color-picker-row"><input id="folder-color" type="color" value="#c6f06f" /><span id="folder-color-value">#C6F06F</span></div></label>
+      <label>Cor<div class="color-picker-row"><input id="folder-color" type="color" value="#e8954a" /><span id="folder-color-value">#E8954A</span></div></label>
       <div class="modal-actions"><button class="text-btn" value="cancel" type="button" id="cancel-subfolder">Cancelar</button><button class="primary-btn" value="default" type="submit" id="folder-submit">Criar pasta</button></div>
     </form>
   </dialog>
@@ -269,7 +277,7 @@
       <div class="choice-divider"><span>ou envie um arquivo</span></div>
       <label class="upload-dropzone compact" for="profile-avatar-file"><span class="upload-icon">↑</span><strong>Escolher foto</strong><small>JPG, PNG ou WEBP · salva com segurança no R2</small><input id="profile-avatar-file" type="file" accept="image/jpeg,image/png,image/webp" /></label>
       <div id="profile-avatar-status" class="file-status" hidden></div>
-      <section class="account-actions" aria-label="Segurança da conta"><div class="account-actions-copy"><strong>Segurança e sessão</strong><small>Gerencie sua senha ou encerre a sessão neste aparelho.</small></div><button class="account-action-btn" id="change-password" type="button"><span aria-hidden="true">⌁</span><span>Alterar senha</span></button><button class="account-action-btn danger" id="sign-out" type="button"><span aria-hidden="true">↪</span><span>Sair da conta</span></button></section>
+      <section class="account-actions" aria-label="Aplicativo, segurança e sessão"><div class="account-actions-copy"><strong>Aplicativo, segurança e sessão</strong><small>Instale o Checkpoint, gerencie sua senha ou encerre a sessão.</small></div><button class="account-action-btn install-app-btn" id="install-app" type="button" hidden><span aria-hidden="true">↓</span><span>Instalar aplicativo</span></button><button class="account-action-btn" id="change-password" type="button"><span aria-hidden="true">⌁</span><span>Alterar senha</span></button><button class="account-action-btn danger" id="sign-out" type="button"><span aria-hidden="true">↪</span><span>Sair da conta</span></button></section>
       <div class="modal-actions"><button class="text-btn" type="button" id="cancel-profile">Cancelar</button><button class="primary-btn" type="submit">Salvar perfil</button></div>
     </form>
   </dialog>
@@ -293,7 +301,7 @@
   <div id="toast" class="toast" role="status" aria-live="polite"></div>
   <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
   <script src="supabase-config.js?v=1"></script>
-  <script src="app.js?v=27"></script>
+  <script src="app.js?v=28"></script>
 </body>
 </html>
 

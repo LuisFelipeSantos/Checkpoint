@@ -5,7 +5,7 @@ const defaultGames=[
  {id:"outer-wilds",title:"Outer Wilds",status:"Concluído",progress:100,meta:"24 descobertas · concluído",cover:"https://images.unsplash.com/photo-1444703686981-a3abbc4d4fe3?auto=format&fit=crop&w=1200&q=85"}
 ];
 const defaultFolders=[
- {id:"backtracking",name:"Lugares para voltar",color:"#c6f06f"},
+ {id:"backtracking",name:"Lugares para voltar",color:"#e8954a"},
  {id:"quests",name:"Quests pendentes",color:"#e9a35a"},
  {id:"builds",name:"Builds e atributos",color:"#77a8ff"},
  {id:"tips",name:"Dicas e lembretes",color:"#c68bff"}
@@ -51,6 +51,7 @@ const appBaseUrl=`${location.origin}${location.pathname}`;
 const callbackSearch=new URLSearchParams(location.search);
 const callbackParams=new URLSearchParams(location.hash.replace(/^#/,""));
 let currentSession=null,authMode="login",passwordRecovery=false,pendingConfirmationEmail="";
+let deferredInstallPrompt=null;
 let recoveryFlowActive=callbackSearch.get("recovery")==="1"||callbackParams.get("type")==="recovery";
 let authCallbackPending=!recoveryFlowActive&&(callbackSearch.get("confirmed")==="1"||Boolean(callbackParams.get("access_token"))),authResultVisible=Boolean(callbackParams.get("error"));
 
@@ -198,7 +199,7 @@ $("#note-form").addEventListener("submit",async event=>{event.preventDefault();c
 $("#delete-note").addEventListener("click",async()=>{if(editingNoteId===null||!confirm("Excluir este item? Esta ação não pode ser desfeita."))return;const item=folderItems(activeFolder).find(note=>String(note.id)===String(editingNoteId)),{error}=await supabaseClient.from("note_items").delete().eq("id",editingNoteId);if(error){showToast("Não foi possível excluir o item.");return}const removed=await deleteStoredImages([item?.imageRef]);await loadCloudGameContent(activeGame.id);$("#note-dialog").close();renderFolders();renderNotes();showToast(removed?"Item e imagem excluídos da nuvem.":"Item excluído, mas a imagem não pôde ser removida do R2.")});
 
 function updateFolderDialog(){const isSubfolder=$("#folder-kind").value==="subfolder";$("#folder-parent-wrap").hidden=!isSubfolder;$("#folder-submit").textContent=isSubfolder?"Criar subpasta":"Criar pasta"}
-$("#new-folder").addEventListener("click",()=>{$("#subfolder-form").reset();$("#folder-kind").value="folder";$("#folder-color").value="#c6f06f";$("#folder-color-value").textContent="#C6F06F";$("#subfolder-parent").innerHTML=folders.map(f=>`<option value="${f.id}" ${f.id===activeFolder?"selected":""}>${escapeHtml(f.name)}</option>`).join("");updateFolderDialog();$("#subfolder-dialog").showModal();setTimeout(()=>$("#subfolder-name").focus(),50)});
+$("#new-folder").addEventListener("click",()=>{$("#subfolder-form").reset();$("#folder-kind").value="folder";$("#folder-color").value="#e8954a";$("#folder-color-value").textContent="#E8954A";$("#subfolder-parent").innerHTML=folders.map(f=>`<option value="${f.id}" ${f.id===activeFolder?"selected":""}>${escapeHtml(f.name)}</option>`).join("");updateFolderDialog();$("#subfolder-dialog").showModal();setTimeout(()=>$("#subfolder-name").focus(),50)});
 $("#folder-kind").addEventListener("change",updateFolderDialog);
 $("#folder-color").addEventListener("input",event=>$("#folder-color-value").textContent=event.target.value.toUpperCase());
 $("#cancel-subfolder").addEventListener("click",()=>$("#subfolder-dialog").close());
@@ -241,6 +242,9 @@ $("#change-password").addEventListener("click",()=>{$("#profile-dialog").close()
 $("#cancel-password").addEventListener("click",()=>$("#password-dialog").close());
 $("#password-form").addEventListener("submit",async event=>{event.preventDefault();const password=$("#new-password").value,confirmation=$("#new-password-confirm").value;if(password!==confirmation){showToast("As senhas não são iguais.");return}const submit=event.submitter;submit.disabled=true;try{const {error}=await supabaseClient.auth.updateUser({password});if(error)throw error;passwordRecovery=false;$("#password-dialog").close();showToast("Senha atualizada com segurança!")}catch(error){showToast(error.message||"Não foi possível alterar a senha.")}finally{submit.disabled=false}});
 $("#sign-out").addEventListener("click",async()=>{const {error}=await supabaseClient.auth.signOut();if(error){showToast("Não foi possível sair da conta.");return}showToast("Sessão encerrada.")});
+window.addEventListener("beforeinstallprompt",event=>{event.preventDefault();deferredInstallPrompt=event;$("#install-app").hidden=false});
+window.addEventListener("appinstalled",()=>{deferredInstallPrompt=null;$("#install-app").hidden=true;showToast("Checkpoint instalado com sucesso!")});
+$("#install-app").addEventListener("click",async()=>{if(!deferredInstallPrompt){showToast("Abra o menu do navegador e escolha Instalar aplicativo.");return}deferredInstallPrompt.prompt();await deferredInstallPrompt.userChoice;deferredInstallPrompt=null;$("#install-app").hidden=true});
 $("#auth-login-tab").addEventListener("click",()=>setAuthMode("login"));
 $("#auth-register-tab").addEventListener("click",()=>setAuthMode("register"));
 $("#auth-form").addEventListener("submit",async event=>{event.preventDefault();const email=$("#auth-email").value.trim(),password=$("#auth-password").value,confirmation=$("#auth-password-confirm").value,submit=$("#auth-submit");if(authMode==="register"&&password!==confirmation){authMessage("As senhas não são iguais.");return}submit.disabled=true;submit.textContent=authMode==="register"?"Criando conta...":"Entrando...";try{if(authMode==="register"){const {data,error}=await supabaseClient.auth.signUp({email,password,options:{emailRedirectTo:`${appBaseUrl}?confirmed=1`}});if(error)throw error;if(data.session)showAuthenticatedApp(data.session);else{showConfirmationPending(email);event.target.reset()}}else{const {data,error}=await supabaseClient.auth.signInWithPassword({email,password});if(error)throw error;showAuthenticatedApp(data.session)}}catch(error){authMessage(friendlyAuthError(error))}finally{submit.disabled=false;submit.textContent=authMode==="register"?"Criar minha conta":"Entrar"}});
@@ -256,4 +260,5 @@ if(callbackParams.get("error"))showConfirmationResult(false,callbackParams.get("
 supabaseClient.auth.onAuthStateChange((event,session)=>{if(session&&(event==="PASSWORD_RECOVERY"||recoveryFlowActive)){passwordRecovery=true;showRecoveryPasswordScreen(session);return}if(!session&&recoveryFlowActive&&!authResultVisible){recoveryFlowActive=false;showConfirmationResult(false,"O link de recuperação expirou, já foi utilizado ou não pertence a este endereço. Solicite um novo link.");return}if(session&&authCallbackPending){authCallbackPending=false;showConfirmationResult(true,"Seu e-mail foi confirmado. Agora você já pode entrar na sua conta.");setTimeout(()=>supabaseClient.auth.signOut({scope:"local"}),0);return}if(!session&&authResultVisible)return;if(session)showAuthenticatedApp(session);else showAuthScreen()});
 renderProfile();
 renderGames();
+if("serviceWorker" in navigator)window.addEventListener("load",()=>navigator.serviceWorker.register("./service-worker.js").catch(()=>console.warn("Não foi possível ativar o modo instalável.")));
 
