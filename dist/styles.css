@@ -88,3 +88,18 @@ html,body{max-width:100%;overflow-x:hidden}.app-shell,.main-content,.view,.detai
 }
 .folder-item[data-drag-folder],.subfolder-item[data-drag-folder]{cursor:grab}
 
+/* Mantém nomes longos de pastas dentro da coluna em qualquer resolução. */
+.detail-layout{grid-template-columns:minmax(0,250px) minmax(0,1fr);width:100%;max-width:100%}
+.folder-panel,.folder-list,.folder-group,.folder-row,.subfolder-list{min-width:0;max-width:100%;box-sizing:border-box}
+.folder-panel{width:100%;overflow:hidden}
+.folder-row{width:100%;grid-template-columns:26px minmax(0,1fr)}
+.folder-item,.subfolder-item{width:100%;min-width:0;max-width:100%;box-sizing:border-box;overflow:hidden}
+.folder-name{flex:1 1 auto;min-width:0;max-width:100%;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.folder-count,.subfolder-count{flex:0 0 auto}
+.subfolder-list{width:calc(100% - 27px);overflow:hidden}
+.panel-title{min-width:0}.panel-title>span{min-width:0;overflow-wrap:anywhere}.panel-title button{flex:0 0 auto}
+
+@media(max-width:1280px){.detail-layout{grid-template-columns:minmax(0,220px) minmax(0,1fr)}}
+@media(max-width:980px){.detail-layout{grid-template-columns:minmax(0,1fr)}.folder-list{grid-template-columns:minmax(0,1fr)}.folder-panel{width:100%}}
+@media(max-width:560px){.folder-panel{padding-inline:8px}.subfolder-list{margin-left:22px;width:calc(100% - 22px);padding-left:7px}.folder-item,.subfolder-item{font-size:12px}.folder-drag-help{font-size:10px}}
+
