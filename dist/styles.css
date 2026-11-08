@@ -86,4 +86,5 @@ html,body{max-width:100%;overflow-x:hidden}.app-shell,.main-content,.view,.detai
   .nav-item{flex-direction:column;gap:3px;font-size:10px;line-height:1}
   .nav-item span{font-size:15px}
 }
+.folder-item[data-drag-folder],.subfolder-item[data-drag-folder]{cursor:grab}
 
