@@ -133,17 +133,17 @@ html,body{max-width:100%;overflow-x:hidden}.app-shell,.main-content,.view,.detai
 @media(max-width:360px){.profile-page-actions{grid-template-columns:1fr}.profile-page-form .upload-dropzone{align-items:flex-start}.profile-page-form .upload-dropzone small{text-align:left}}
 
 /* Impede que componentes internos ampliem a viewport no celular. */
-html{width:100%;max-width:100%;overflow-x:clip}
-body{width:100%;max-width:100%;overflow-x:clip}
+html{width:100%;max-width:100%;overflow-x:hidden}
+body{width:100%;max-width:100%;overflow-x:hidden}
 .app-shell,.main-content,.view,.page-header,.toolbar,.game-grid,.game-hero,.detail-layout,.folder-panel,.notes-panel,.activity-stats,.activity-layout,.activity-panel,.data-card,.profile-view,.profile-page-form,.profile-page-card{max-width:100%;min-width:0}
 .main-content>.view{width:100%}
 .page-header>*,.toolbar>*,.notes-header>*,.header-actions,.content-filter-bar>*,.data-card>*,.activity-panel>*,.profile-page-form>*,.profile-page-card>*{min-width:0}
 .subtitle,.data-card p,.account-actions-copy,.profile-preview,.upload-dropzone{overflow-wrap:anywhere}
 
 @media(max-width:820px){
-  .app-shell,.main-content{width:100%;max-width:100%;overflow-x:clip}
+  .app-shell,.main-content{width:100%;max-width:100%;overflow-x:hidden}
   .main-content{margin:0}
-  .view{width:100%;overflow-x:clip}
+  .view{width:100%;overflow-x:hidden}
   .toolbar,.page-header,.game-grid,.game-hero,.detail-layout,.folder-panel,.notes-panel,.activity-stats,.activity-layout,.data-card,.profile-page-form{width:100%;box-sizing:border-box}
   .filter-tabs,.content-filter-group{max-width:100%;overscroll-behavior-inline:contain}
   .hero-content{max-width:calc(100% - 44px);min-width:0}
