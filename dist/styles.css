@@ -156,11 +156,5 @@ body{width:100%;max-width:100%;overflow-x:hidden}
   .folder-item{min-height:42px;touch-action:pan-y}
   input,select,textarea{font-size:16px!important}
   .profile-page-form input{font-size:16px!important}
-  body.profile-open .sidebar{display:none}
-  body.profile-open .main-content{padding-bottom:calc(32px + env(safe-area-inset-bottom))}
-  .profile-view{margin:0;width:100%;padding-bottom:calc(24px + env(safe-area-inset-bottom))}
-  .profile-page-form{display:flex;flex-direction:column;width:100%;gap:14px}
-  .profile-page-card{width:100%;padding:18px}
-  .profile-page-actions{width:100%;padding-bottom:0}
 }
 
