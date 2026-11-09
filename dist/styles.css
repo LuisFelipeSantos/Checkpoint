@@ -158,3 +158,13 @@ body{width:100%;max-width:100%;overflow-x:hidden}
   .profile-page-form input{font-size:16px!important}
 }
 
+/* A estrutura móvel sempre ocupa a viewport inteira, sem herdar a coluna desktop. */
+@media(max-width:820px){
+  html,body{width:100dvw!important;min-width:0!important;max-width:100dvw!important;margin:0!important;overflow-x:hidden!important}
+  .app-shell{display:block!important;grid-template-columns:minmax(0,1fr)!important;width:100dvw!important;min-width:0!important;max-width:100dvw!important;margin:0!important;overflow-x:hidden!important}
+  .main-content{display:block!important;grid-column:1!important;width:100dvw!important;min-width:0!important;max-width:100dvw!important;margin:0!important;overflow-x:hidden!important}
+  .main-content>.view,.profile-view{width:100%!important;min-width:0!important;max-width:100%!important;margin-left:0!important;margin-right:0!important}
+  .sidebar{left:0!important;right:0!important;width:100dvw!important;min-width:0!important;max-width:100dvw!important;margin:0!important}
+  .profile-page-form,.profile-page-card,.account-actions,.profile-page-actions{min-width:0!important;max-width:100%!important}
+}
+
