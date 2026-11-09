@@ -150,5 +150,9 @@ body{width:100%;max-width:100%;overflow-x:clip}
   .hero-status-row{max-width:100%}
   .notes-header,.content-filter-bar{width:100%;min-width:0}
   .sidebar{max-width:100vw;overflow:hidden}
+  .folder-row{grid-template-columns:40px minmax(0,1fr)}
+  .expand-btn{width:40px;height:42px;font-size:20px;touch-action:manipulation}
+  .expand-btn:disabled{visibility:hidden}
+  .folder-item{min-height:42px;touch-action:pan-y}
 }
 
