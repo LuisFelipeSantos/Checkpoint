@@ -154,5 +154,7 @@ body{width:100%;max-width:100%;overflow-x:hidden}
   .expand-btn{width:40px;height:42px;font-size:20px;touch-action:manipulation}
   .expand-btn:disabled{visibility:hidden}
   .folder-item{min-height:42px;touch-action:pan-y}
+  input,select,textarea{font-size:16px!important}
+  .profile-page-form input{font-size:16px!important}
 }
 
