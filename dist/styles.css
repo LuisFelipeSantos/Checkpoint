@@ -122,3 +122,9 @@ html,body{max-width:100%;overflow-x:hidden}.app-shell,.main-content,.view,.detai
 @media(max-width:820px){.profile-view{max-width:none}.profile-page-form{grid-template-columns:1fr}.profile-page-actions{grid-column:1}.profile-page-form .account-actions{grid-template-columns:repeat(2,minmax(0,1fr))}.profile-page-form .install-app-btn{grid-column:1/-1}}
 @media(max-width:560px){.profile-page-card{padding:18px}.profile-page-form .account-actions{grid-template-columns:1fr}.profile-page-form .account-action-btn,.profile-page-form .install-app-btn{grid-column:1}.profile-page-actions{position:sticky;bottom:76px;z-index:3;margin:0 -4px;padding:14px 4px calc(4px + env(safe-area-inset-bottom));background:linear-gradient(180deg,transparent,var(--bg) 24%)}.profile-page-actions>*{flex:1}.profile-page-actions .primary-btn{min-width:0}}
 
+/* Estados dos jogos: discretos e independentes das tarefas. */
+.status-pill.in-progress{background:#e8954a;color:#24150a}
+.status-pill.done{background:#1d3328;color:#9bd3b1;border:1px solid #315443}
+.status-pill.queue{background:#9aa2aa1c;color:#b8bec3;border:1px solid #88919a2b}
+.status-pill.dropped{background:#3a2227;color:#e6a0a8;border:1px solid #653840}
+

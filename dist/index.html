@@ -17,7 +17,7 @@
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Space+Grotesk:wght@500;600;700&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="styles.css?v=20" />
+  <link rel="stylesheet" href="styles.css?v=21" />
 </head>
 <body>
   <section class="auth-screen" id="auth-screen" aria-labelledby="auth-title">
@@ -100,7 +100,8 @@
             <button class="filter active" type="button" data-filter="Todos">Todos <span id="count-all">4</span></button>
             <button class="filter" type="button" data-filter="Em andamento">Em andamento</button>
             <button class="filter" type="button" data-filter="Na fila">Na fila</button>
-            <button class="filter" type="button" data-filter="Concluído">Concluídos</button>
+            <button class="filter" type="button" data-filter="Finalizado">Finalizados</button>
+            <button class="filter" type="button" data-filter="Dropado">Dropados</button>
           </div>
         </div>
 
@@ -212,7 +213,7 @@
       <div class="modal-head"><div><p class="eyebrow">NOVA JORNADA</p><h2>Adicionar jogo</h2></div><button class="icon-btn close-modal" type="button" aria-label="Fechar">×</button></div>
       <label>Nome do jogo<input id="new-game-title" required placeholder="Ex.: Baldur's Gate 3" /></label>
       <label>URL da capa <span>(opcional)</span><input id="new-game-cover" type="url" placeholder="https://..." /></label>
-      <label>Status<select id="new-game-status"><option>Em andamento</option><option>Na fila</option><option>Concluído</option></select></label>
+      <label>Status<select id="new-game-status"><option>Em andamento</option><option>Na fila</option><option>Finalizado</option><option>Dropado</option></select></label>
       <div class="modal-actions"><button class="text-btn" value="cancel" type="button" id="cancel-game">Cancelar</button><button class="primary-btn" value="default" type="submit">Adicionar à biblioteca</button></div>
     </form>
   </dialog>
@@ -241,7 +242,7 @@
     <form method="dialog" id="edit-game-form">
       <div class="modal-head"><div><p class="eyebrow">ORGANIZAR BIBLIOTECA</p><h2>Editar jogo</h2></div><button class="icon-btn close-modal" type="button" aria-label="Fechar">×</button></div>
       <label>Nome<input id="edit-game-title" required /></label>
-      <label>Status<select id="edit-game-status"><option>Em andamento</option><option>Na fila</option><option>Concluído</option></select></label>
+      <label>Status<select id="edit-game-status"><option>Em andamento</option><option>Na fila</option><option>Finalizado</option><option>Dropado</option></select></label>
       <div class="modal-actions split-actions"><button class="danger-text-btn" type="button" id="delete-game">Excluir jogo</button><span></span><button class="text-btn" type="button" id="cancel-edit-game">Cancelar</button><button class="primary-btn" type="submit">Salvar alterações</button></div>
     </form>
   </dialog>
@@ -304,7 +305,7 @@
   <div id="toast" class="toast" role="status" aria-live="polite"></div>
   <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
   <script src="supabase-config.js?v=1"></script>
-  <script src="app.js?v=30"></script>
+  <script src="app.js?v=31"></script>
 </body>
 </html>
 
