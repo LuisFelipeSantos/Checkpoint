@@ -1,5 +1,5 @@
-const CACHE_NAME="checkpoint-shell-v4";
-const APP_SHELL=["./","./index.html","./styles.css?v=21","./app.js?v=31","./manifest.webmanifest","./icons/icon-192.png","./icons/icon-512.png"];
+const CACHE_NAME="checkpoint-shell-v5";
+const APP_SHELL=["./","./index.html","./styles.css?v=22","./app.js?v=31","./manifest.webmanifest","./icons/icon-192.png","./icons/icon-512.png"];
 
 self.addEventListener("install",event=>{
   event.waitUntil(caches.open(CACHE_NAME).then(cache=>cache.addAll(APP_SHELL)).then(()=>self.skipWaiting()));
