@@ -127,6 +127,7 @@ html,body{max-width:100%;overflow-x:hidden}.app-shell,.main-content,.view,.detai
 .status-pill.done{background:#1d3328;color:#9bd3b1;border:1px solid #315443}
 .status-pill.queue{background:#9aa2aa1c;color:#b8bec3;border:1px solid #88919a2b}
 .status-pill.dropped{background:#3a2227;color:#e6a0a8;border:1px solid #653840}
+.modal:focus{outline:none}
 
 @media(max-width:560px){.profile-view,.profile-page-form,.profile-page-card{width:100%;max-width:100%;min-width:0}.profile-view{padding-bottom:calc(48px + env(safe-area-inset-bottom))}.profile-page-card{overflow:hidden}.profile-page-actions{position:static;display:grid;grid-template-columns:1fr 1fr;bottom:auto;z-index:auto;margin:0;padding:4px 0 20px;background:none}.profile-page-actions>*{width:100%}.profile-page-form .upload-dropzone{width:100%;min-width:0;padding:16px 12px!important;gap:10px}.profile-page-form .upload-dropzone small{min-width:0;overflow-wrap:anywhere}.profile-page-form .profile-preview{min-width:0}.profile-page-form .profile-preview>div{min-width:0}}
 @media(max-width:360px){.profile-page-actions{grid-template-columns:1fr}.profile-page-form .upload-dropzone{align-items:flex-start}.profile-page-form .upload-dropzone small{text-align:left}}
