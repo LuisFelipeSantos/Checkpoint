@@ -268,5 +268,14 @@ if(callbackParams.get("error"))showConfirmationResult(false,callbackParams.get("
 supabaseClient.auth.onAuthStateChange((event,session)=>{if(session&&(event==="PASSWORD_RECOVERY"||recoveryFlowActive)){passwordRecovery=true;showRecoveryPasswordScreen(session);return}if(!session&&recoveryFlowActive&&!authResultVisible){recoveryFlowActive=false;showConfirmationResult(false,"O link de recuperação expirou, já foi utilizado ou não pertence a este endereço. Solicite um novo link.");return}if(session&&authCallbackPending){authCallbackPending=false;showConfirmationResult(true,"Seu e-mail foi confirmado. Agora você já pode entrar na sua conta.");setTimeout(()=>supabaseClient.auth.signOut({scope:"local"}),0);return}if(!session&&authResultVisible)return;if(session)showAuthenticatedApp(session);else showAuthScreen()});
 renderProfile();
 renderGames();
-if("serviceWorker" in navigator)window.addEventListener("load",()=>navigator.serviceWorker.register("./service-worker.js").catch(()=>console.warn("Não foi possível ativar o modo instalável.")));
+if("serviceWorker" in navigator){
+ let refreshing=false;
+ navigator.serviceWorker.addEventListener("controllerchange",()=>{
+  if(refreshing||sessionStorage.getItem("checkpoint-sw-refreshed")==="1")return;
+  refreshing=true;sessionStorage.setItem("checkpoint-sw-refreshed","1");window.location.reload();
+ });
+ window.addEventListener("load",async()=>{
+  try{const registration=await navigator.serviceWorker.register("./service-worker.js");await registration.update();sessionStorage.removeItem("checkpoint-sw-refreshed")}catch{console.warn("Não foi possível ativar o modo instalável.")}
+ });
+}
 
