@@ -17,7 +17,7 @@
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Space+Grotesk:wght@500;600;700&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="styles.css?v=19" />
+  <link rel="stylesheet" href="styles.css?v=20" />
 </head>
 <body>
   <section class="auth-screen" id="auth-screen" aria-labelledby="auth-title">
@@ -62,7 +62,7 @@
         <button class="nav-item" type="button" data-view="data">
           <span aria-hidden="true">⇅</span> Dados
         </button>
-        <button class="nav-item mobile-profile-nav" id="open-profile-mobile" type="button" aria-haspopup="dialog">
+        <button class="nav-item mobile-profile-nav" id="open-profile-mobile" type="button">
           <span aria-hidden="true">●</span> Perfil
         </button>
       </nav>
@@ -72,7 +72,7 @@
         <span class="sync-dot"></span>
         <div><strong id="sync-title">Conectado</strong><small id="sync-subtitle">Dados locais por enquanto</small></div>
       </div>
-      <button class="profile" id="open-profile" type="button" aria-haspopup="dialog">
+      <button class="profile" id="open-profile" type="button">
         <span class="avatar"><span id="sidebar-avatar-initial">L</span><img id="sidebar-avatar-image" alt="" hidden /></span>
         <span><strong id="sidebar-profile-name">Meu perfil</strong><small id="sidebar-profile-email">Explorador</small></span>
         <span class="profile-more">•••</span>
@@ -177,6 +177,23 @@
         </div>
       </section>
 
+      <section id="profile-view" class="view profile-view" aria-labelledby="profile-title">
+        <button class="back-btn" id="profile-back" type="button">← Voltar</button>
+        <header class="page-header profile-page-header"><div><p class="eyebrow">SUA CONTA</p><h1 id="profile-title">Meu perfil</h1><p class="subtitle">Personalize sua conta, instale o aplicativo e gerencie sua segurança.</p></div></header>
+        <form id="profile-form" class="profile-page-form">
+          <section class="profile-page-card profile-identity-card">
+            <div class="profile-preview"><span class="avatar profile-avatar"><span id="profile-avatar-initial">L</span><img id="profile-avatar-image" alt="Foto do perfil" hidden /></span><div><strong id="profile-preview-name">Explorador</strong><small>Perfil sincronizado com sua conta</small></div></div>
+            <label>Nome de exibição<input id="profile-display-name" maxlength="80" required placeholder="Como você quer ser chamado?" /></label>
+            <label>URL da foto <span>(opcional)</span><input id="profile-avatar-url" type="url" placeholder="https://exemplo.com/foto.jpg" /></label>
+            <div class="choice-divider"><span>ou envie um arquivo</span></div>
+            <label class="upload-dropzone compact" for="profile-avatar-file"><span class="upload-icon">↑</span><strong>Escolher foto</strong><small>JPG, PNG ou WEBP · salva com segurança no R2</small><input id="profile-avatar-file" type="file" accept="image/jpeg,image/png,image/webp" /></label>
+            <div id="profile-avatar-status" class="file-status" hidden></div>
+          </section>
+          <section class="profile-page-card account-actions" aria-label="Aplicativo, segurança e sessão"><div class="account-actions-copy"><strong>Aplicativo, segurança e sessão</strong><small>Instale o Checkpoint, gerencie sua senha ou encerre a sessão.</small></div><button class="account-action-btn install-app-btn" id="install-app" type="button" hidden><span aria-hidden="true">↓</span><span>Instalar aplicativo</span></button><button class="account-action-btn" id="change-password" type="button"><span aria-hidden="true">⌁</span><span>Alterar senha</span></button><button class="account-action-btn danger" id="sign-out" type="button"><span aria-hidden="true">↪</span><span>Sair da conta</span></button></section>
+          <div class="profile-page-actions"><button class="text-btn" type="button" id="cancel-profile">Cancelar</button><button class="primary-btn" type="submit">Salvar perfil</button></div>
+        </form>
+      </section>
+
       <section id="activity-view" class="view" aria-labelledby="activity-title">
         <header class="page-header"><div><p class="eyebrow">VISÃO GERAL</p><h1 id="activity-title">Sua atividade</h1><p class="subtitle">Um resumo útil do seu progresso e do que merece atenção agora.</p></div></header>
         <div class="activity-stats" id="activity-stats" aria-live="polite"><article><span>Jogos</span><strong id="stat-games">—</strong><small>na biblioteca</small></article><article><span>Em andamento</span><strong id="stat-playing">—</strong><small>jornadas ativas</small></article><article><span>Pendentes</span><strong id="stat-pending">—</strong><small>tarefas para fazer</small></article><article><span>Concluídas</span><strong id="stat-done">—</strong><small>tarefas finalizadas</small></article></div>
@@ -268,20 +285,6 @@
     </form>
   </dialog>
 
-  <dialog id="profile-dialog" class="modal">
-    <form method="dialog" id="profile-form">
-      <div class="modal-head"><div><p class="eyebrow">SUA CONTA</p><h2>Meu perfil</h2></div><button class="icon-btn close-modal" type="button" aria-label="Fechar">×</button></div>
-      <div class="profile-preview"><span class="avatar profile-avatar"><span id="profile-avatar-initial">L</span><img id="profile-avatar-image" alt="Foto do perfil" hidden /></span><div><strong id="profile-preview-name">Explorador</strong><small>Perfil salvo neste aparelho</small></div></div>
-      <label>Nome de exibição<input id="profile-display-name" maxlength="80" required placeholder="Como você quer ser chamado?" /></label>
-      <label>URL da foto <span>(opcional)</span><input id="profile-avatar-url" type="url" placeholder="https://exemplo.com/foto.jpg" /></label>
-      <div class="choice-divider"><span>ou envie um arquivo</span></div>
-      <label class="upload-dropzone compact" for="profile-avatar-file"><span class="upload-icon">↑</span><strong>Escolher foto</strong><small>JPG, PNG ou WEBP · salva com segurança no R2</small><input id="profile-avatar-file" type="file" accept="image/jpeg,image/png,image/webp" /></label>
-      <div id="profile-avatar-status" class="file-status" hidden></div>
-      <section class="account-actions" aria-label="Aplicativo, segurança e sessão"><div class="account-actions-copy"><strong>Aplicativo, segurança e sessão</strong><small>Instale o Checkpoint, gerencie sua senha ou encerre a sessão.</small></div><button class="account-action-btn install-app-btn" id="install-app" type="button" hidden><span aria-hidden="true">↓</span><span>Instalar aplicativo</span></button><button class="account-action-btn" id="change-password" type="button"><span aria-hidden="true">⌁</span><span>Alterar senha</span></button><button class="account-action-btn danger" id="sign-out" type="button"><span aria-hidden="true">↪</span><span>Sair da conta</span></button></section>
-      <div class="modal-actions"><button class="text-btn" type="button" id="cancel-profile">Cancelar</button><button class="primary-btn" type="submit">Salvar perfil</button></div>
-    </form>
-  </dialog>
-
   <dialog id="password-dialog" class="modal">
     <form method="dialog" id="password-form">
       <div class="modal-head"><div><p class="eyebrow">SEGURANÇA DA CONTA</p><h2>Alterar senha</h2></div><button class="icon-btn close-modal" type="button" aria-label="Fechar">×</button></div>
@@ -301,7 +304,7 @@
   <div id="toast" class="toast" role="status" aria-live="polite"></div>
   <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
   <script src="supabase-config.js?v=1"></script>
-  <script src="app.js?v=29"></script>
+  <script src="app.js?v=30"></script>
 </body>
 </html>
 
