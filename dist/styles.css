@@ -181,3 +181,7 @@ html:has(dialog.modal[open]),body:has(dialog.modal[open]){overflow:hidden!import
   .modal form{max-height:calc(100dvh - 20px)!important;padding:18px!important}
 }
 
+/* O input de arquivo permanece acessível sem aumentar a largura do perfil. */
+.profile-page-form .upload-dropzone{position:relative}
+.profile-page-form .upload-dropzone input[type="file"]{position:absolute!important;width:1px!important;height:1px!important;min-width:1px!important;max-width:1px!important;padding:0!important;margin:0!important;opacity:0!important;overflow:hidden!important;pointer-events:none!important}
+
