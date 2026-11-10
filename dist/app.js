@@ -44,7 +44,7 @@ let localProfile=JSON.parse(localStorage.getItem("checkpoint-profile")||"null")|
 const legacySubfolderMap={1:"limgrave",2:"limgrave",3:"volcano",4:"npc-quests",5:"bleed-build",6:"merchants"};
 Object.values(notes).flat().forEach(note=>{if(!note.subfolder&&legacySubfolderMap[note.id])note.subfolder=legacySubfolderMap[note.id];if(!note.type)note.type="task"});
 const $=selector=>document.querySelector(selector);
-function showNeutralDialog(dialog){dialog.setAttribute("tabindex","-1");dialog.autofocus=true;dialog.showModal();requestAnimationFrame(()=>dialog.focus({preventScroll:true}))}
+function showNeutralDialog(dialog){dialog.setAttribute("tabindex","-1");dialog.autofocus=true;dialog.showModal();const form=dialog.querySelector("form");dialog.scrollLeft=0;if(form){form.scrollLeft=0;form.scrollTop=0}requestAnimationFrame(()=>{dialog.scrollLeft=0;if(form){form.scrollLeft=0;form.scrollTop=0}dialog.focus({preventScroll:true})})}
 const supabaseConfig=window.CHECKPOINT_SUPABASE;
 const supabaseClient=window.supabase?.createClient(supabaseConfig.url,supabaseConfig.publishableKey,{auth:{persistSession:true,autoRefreshToken:true,detectSessionInUrl:true}});
 const r2BaseUrl="https://taskgames-images.taskgames-luisfelipe.workers.dev";
