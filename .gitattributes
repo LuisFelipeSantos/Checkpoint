@@ -1,0 +1,3 @@
+supabase/migrations/*.sql linguist-detectable=false
+dist/*.js linguist-generated=false linguist-detectable=true
+cloudflare-r2/*.js linguist-detectable=true
